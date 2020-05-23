@@ -10,6 +10,7 @@ class PushButton : public QPushButton
 {
 public:
     PushButton(QString s, int x, int y, QWidget * par);
+    void Click();
 };
 
 #endif // PUSHBUTTON_H
