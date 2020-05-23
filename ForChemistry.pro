@@ -16,15 +16,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    combobox.cpp \
+    doublespinbox.cpp \
     idealgaslaw.cpp \
     label.cpp \
+    lineedit.cpp \
     main.cpp \
-    board.cpp
+    board.cpp \
+    pushbutton.cpp
 
 HEADERS += \
     board.h \
+    combobox.h \
+    doublespinbox.h \
     idealgaslaw.h \
-    label.h
+    label.h \
+    lineedit.h \
+    pushbutton.h
 
 FORMS += \
     board.ui

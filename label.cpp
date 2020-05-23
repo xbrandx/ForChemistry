@@ -1,9 +1,11 @@
 #include "label.h"
 
-Label::Label(QWidget *par)
-    :QLabel(par)
+Label::Label(QString s,
+             int x, int y,
+             QWidget *par)
+    : QLabel(par)
 {
-    setText("Mole #: ");
-    move(100,30);
+    setText(s);
+    move(x,y);
     show();
 }
