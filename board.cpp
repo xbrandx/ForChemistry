@@ -19,7 +19,7 @@ Board::~Board()
 
 void Board::on_actionIdeal_Gas_Law_triggered()
 {
-    resize(500,250);
+    resize(500,200);
     gaslaw = new IdealGasLaw(ui->centralWidget);
 }
 

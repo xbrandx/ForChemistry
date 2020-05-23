@@ -4,11 +4,12 @@
 #include <QObject>
 #include <QWidget>
 #include <QLabel>
+#include <QString>
 
 class Label : public QLabel
 {
 public:
-    Label(QWidget * par);
+    Label(QString s, int x, int y, QWidget * par);
 };
 
 #endif // LABEL_H
