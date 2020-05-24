@@ -3,6 +3,8 @@
 #include <QDebug>
 
 QString string;
+int IdealGasLaw::mole;
+double IdealGasLaw::temperature;
 
 IdealGasLaw::IdealGasLaw(QWidget *par)
     : parent(par)
@@ -22,11 +24,11 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
 
     ComboBox * combo = new ComboBox(10, 10, 80, 30, parent);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        [=](int index){ qDebug() << index; });
+        [=](int index){ qDebug() << index; mole = index + 1; });
 
     DoubleSpinBox * spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 350, 30, " C", parent);
     DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-        [=](double d){ qDebug() << d; });
+        [=](double d){ qDebug() << d; temperature = d;});
 }
 
 QString IdealGasLaw::Name()

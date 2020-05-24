@@ -8,6 +8,8 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 
+class IdealGasLaw;
+
 class PushButton : public QPushButton
 {
 public:

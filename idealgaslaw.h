@@ -14,6 +14,8 @@ class IdealGasLaw
 {
 public:
     QWidget * parent;
+    static int mole;
+    static double temperature;
     IdealGasLaw(QWidget *par);
     QString Name();
 };
