@@ -1,9 +1,8 @@
 #include "idealgaslaw.h"
-#include "label.h"
-#include "lineedit.h"
-#include "pushbutton.h"
-#include "combobox.h"
-#include "doublespinbox.h"
+
+#include <QDebug>
+
+QString string;
 
 IdealGasLaw::IdealGasLaw(QWidget *par)
     : parent(par)
@@ -15,12 +14,23 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
 
     LineEdit * line1 = new LineEdit(180, 80, parent);
     LineEdit * line2 = new LineEdit(180, 120, parent);
+    string = line1->text();
+    qDebug() << string;
 
-    PushButton * button1 = new PushButton("Find Volume  ", 350, 80, parent);
-    PushButton * button2 = new PushButton("Find Pressure", 350, 120, parent);
-    button2->Click();
+    PushButton * button1 = new PushButton("Find Volume  ", "GasLaw_Volume", 350, 80, parent);
+    PushButton * button2 = new PushButton("Find Pressure", "GasLaw_Pressure", 350, 120, parent);
 
     ComboBox * combo = new ComboBox(10, 10, 80, 30, parent);
+    ComboBox::connect(combo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        [=](int index){ qDebug() << index; });
 
     DoubleSpinBox * spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 350, 30, " C", parent);
+    DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+        [=](double d){ qDebug() << d; });
 }
+
+QString IdealGasLaw::Name()
+{
+    return "Ideal Gas Law";
+}
+

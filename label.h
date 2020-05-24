@@ -9,7 +9,7 @@
 class Label : public QLabel
 {
 public:
-    Label(QString s, int x, int y, QWidget * par);
+    Label(QString t, int x, int y, QWidget * par);
 };
 
 #endif // LABEL_H

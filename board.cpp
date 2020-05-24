@@ -1,4 +1,3 @@
-#include "idealgaslaw.h"
 #include "board.h"
 #include "ui_board.h"
 
@@ -21,6 +20,7 @@ void Board::on_actionIdeal_Gas_Law_triggered()
 {
     resize(500,200);
     gaslaw = new IdealGasLaw(ui->centralWidget);
+    setWindowTitle(gaslaw->Name());
 }
 
 void Board::on_actionExit_triggered()

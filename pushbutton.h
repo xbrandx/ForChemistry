@@ -5,12 +5,17 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QString>
+#include <QMouseEvent>
+#include <QMessageBox>
 
 class PushButton : public QPushButton
 {
 public:
-    PushButton(QString s, int x, int y, QWidget * par);
-    void Click();
+    QString program;
+    PushButton(QString t, QString p, int x, int y, QWidget * par);
+    void mousePressEvent(QMouseEvent * ev);
+    void GasLaw_Volume();
+    void GasLaw_Pressure();
 };
 
 #endif // PUSHBUTTON_H

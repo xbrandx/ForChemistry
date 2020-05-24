@@ -1,11 +1,11 @@
 #include "label.h"
 
-Label::Label(QString s,
+Label::Label(QString t,
              int x, int y,
              QWidget *par)
     : QLabel(par)
 {
-    setText(s);
+    setText(t);
     move(x,y);
     show();
 }
