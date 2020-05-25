@@ -1,5 +1,7 @@
 #include "idealgaslaw.h"
 
+#include <QDebug>
+
 QString IdealGasLaw::PressureInput;
 QString IdealGasLaw::VolumeInput;
 int IdealGasLaw::mole = 1;
@@ -27,6 +29,9 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
 
     PushButton * button1 = new PushButton("Find Volume  ", "GasLaw_Volume", 310, 80, parent);
     PushButton * button2 = new PushButton("Find Pressure", "GasLaw_Pressure", 310, 120, parent);
+    PushButton * button3 = new PushButton("test", "", 310, 140, parent);
+    PushButton::connect(button3, &QPushButton::clicked,
+                        [](){qDebug() << "Test";});     // this line of code doe snot work.
 
     ComboBox * combo = new ComboBox(10, 10, 80, 40, parent);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
