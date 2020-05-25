@@ -28,23 +28,35 @@ void PushButton::mousePressEvent(QMouseEvent * ev)
 
 void PushButton::GasLaw_Volume()
 {
-    double PressureValue = 1;
+    double PressureValue;
     double VolumeValue;
-    double R = 8.0821;
+    double R = 0.0821;
+    double TempAdjust = IdealGasLaw::temperature + 273;
 
-    VolumeValue = (IdealGasLaw::mole*R*IdealGasLaw::temperature)/PressureValue;
-
-    QMessageBox::about(this, "Message", "Volume is " + QString::number(VolumeValue));
+    if (IdealGasLaw::PressureInput.toFloat() <= 0.0f)
+    {
+        QMessageBox::about(this, "Error", "Invalid Input! Please Enter A Valid Number.");
+    } else {
+        PressureValue = std::stod(IdealGasLaw::PressureInput.toStdString());
+        VolumeValue = (IdealGasLaw::mole*R*TempAdjust)/PressureValue;
+        QMessageBox::about(this, "Volume Value", "The volume is " + QString::number(VolumeValue) + " L.");
+    }
 }
 
 void PushButton::GasLaw_Pressure()
 {
     double PressureValue;
-    double VolumeValue = 1;
-    double R = 8.0821;
+    double VolumeValue;
+    double R = 0.0821;
+    double TempAdjust = IdealGasLaw::temperature + 273;
 
-    PressureValue = (IdealGasLaw::mole*R*IdealGasLaw::temperature)/VolumeValue;
-
-    QMessageBox::about(this, "Message", "Pressure is " + QString::number(PressureValue));
+    if (IdealGasLaw::VolumeInput.toFloat() <= 0.0f)
+    {
+        QMessageBox::about(this, "Error", "Invalid Input! Please Enter A Valid Number.");
+    } else {
+        VolumeValue = std::stod(IdealGasLaw::VolumeInput.toStdString());
+        PressureValue = (IdealGasLaw::mole*R*TempAdjust)/VolumeValue;
+        QMessageBox::about(this, "Pressure Value", "The pressure is " + QString::number(PressureValue) + " atm.");
+    }
 }
 

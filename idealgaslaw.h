@@ -14,6 +14,8 @@ class IdealGasLaw
 {
 public:
     QWidget * parent;
+    static QString PressureInput;
+    static QString VolumeInput;
     static int mole;
     static double temperature;
     IdealGasLaw(QWidget *par);
