@@ -1,7 +1,5 @@
 #include "idealgaslaw.h"
 
-#include <QDebug>
-
 QString IdealGasLaw::PressureInput;
 QString IdealGasLaw::VolumeInput;
 int IdealGasLaw::mole = 1;
@@ -10,15 +8,23 @@ double IdealGasLaw::temperature = 24;
 IdealGasLaw::IdealGasLaw(QWidget *par)
     : parent(par)
 {
-    Label * label0 = new Label("- Ideal Gas Law", 180, 7, parent);
-    Label * label1 = new Label("Mole #: ", 30, 42, parent);
-    Label * label2 = new Label("Temperature (C): ", 190, 42, parent);
-    Label * label3 = new Label("Enter Pressure (atm): ", 30, 82, parent);
-    Label * label4 = new Label("Enter Volume (L): ", 30, 122, parent);
-    QFont font;
-    font.setPointSize(12);
-    label0->setFont(font);
+    Label * label0 = new Label("- Ideal Gas Law", 180, 10, parent);
+    Label * label1 = new Label("Mole #: ", 30, 45, parent);
+    Label * label2 = new Label("Temperature (C): ", 190, 45, parent);
+    Label * label3 = new Label("Enter Pressure (atm): ", 30, 85, parent);
+    Label * label4 = new Label("Enter Volume (L): ", 30, 125, parent);
+    QFont font1;
+    font1.setPointSize(12);
+    label0->setFont(font1);
     label0->setFixedWidth(130);
+    label0->setFixedHeight(13);
+    QFont font2;
+    font2.setPointSize(8);
+    label1->setFont(font2);
+    label2->setFont(font2);
+    label3->setFont(font2);
+    label3->setFixedWidth(130);
+    label4->setFont(font2);
 
     LineEdit * line1 = new LineEdit(160, 80, parent);
     LineEdit * line2 = new LineEdit(160, 120, parent);
@@ -27,11 +33,12 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
     LineEdit::connect(line2, QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ VolumeInput = d; });
 
-    PushButton * button1 = new PushButton("Find Volume  ", "GasLaw_Volume", 310, 80, parent);
-    PushButton * button2 = new PushButton("Find Pressure", "GasLaw_Pressure", 310, 120, parent);
-    PushButton * button3 = new PushButton("test", "", 310, 140, parent);
-    PushButton::connect(button3, &QPushButton::clicked,
-                        [](){qDebug() << "Test";});     // this line of code doe snot work.
+    PushButton * button1 = new PushButton("Find Volume  ", 310, 80, parent);
+    PushButton * button2 = new PushButton("Find Pressure", 310, 120, parent);
+    PushButton::connect(button1, &QPushButton::clicked,
+                        [=](){ CalculateVolume(); });
+    PushButton::connect(button2, &QPushButton::clicked,
+                        [=](){ CalculatePressure(); });
 
     ComboBox * combo = new ComboBox(10, 10, 80, 40, parent);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
@@ -47,3 +54,36 @@ QString IdealGasLaw::Name()
     return "Ideal Gas Law";
 }
 
+void IdealGasLaw::CalculateVolume()
+{
+    double PressureValue;
+    double VolumeValue;
+    double R = 0.0821;
+    double TempAdjust = temperature + 273;
+
+    if (PressureInput.toFloat() <= 0.0f)
+    {
+        QMessageBox::about(parent, "Error", "Invalid Input! Please Enter A Valid Number.");
+    } else {
+        PressureValue = std::stod(PressureInput.toStdString());
+        VolumeValue = (mole*R*TempAdjust)/PressureValue;
+        QMessageBox::about(parent, "Volume Value", "The volume is " + QString::number(VolumeValue) + " L.");
+    }
+}
+
+void IdealGasLaw::CalculatePressure()
+{
+    double PressureValue;
+    double VolumeValue;
+    double R = 0.0821;
+    double TempAdjust = temperature + 273;
+
+    if (VolumeInput.toFloat() <= 0.0f)
+    {
+        QMessageBox::about(parent, "Error", "Invalid Input! Please Enter A Valid Number.");
+    } else {
+        VolumeValue = std::stod(VolumeInput.toStdString());
+        PressureValue = (mole*R*TempAdjust)/VolumeValue;
+        QMessageBox::about(parent, "Pressure Value", "The pressure is " + QString::number(PressureValue) + " atm.");
+    }
+}

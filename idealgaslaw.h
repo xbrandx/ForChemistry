@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QString>
+#include <QMessageBox>
 #include "label.h"
 #include "lineedit.h"
 #include "pushbutton.h"
@@ -20,6 +21,8 @@ public:
     static double temperature;
     IdealGasLaw(QWidget *par);
     QString Name();
+    void CalculateVolume();
+    void CalculatePressure();
 };
 
 #endif // IDEALGASLAW_H
