@@ -23,7 +23,8 @@ SOURCES += \
     lineedit.cpp \
     main.cpp \
     board.cpp \
-    pushbutton.cpp
+    pushbutton.cpp \
+    test.cpp
 
 HEADERS += \
     board.h \
@@ -32,7 +33,8 @@ HEADERS += \
     idealgaslaw.h \
     label.h \
     lineedit.h \
-    pushbutton.h
+    pushbutton.h \
+    test.h
 
 FORMS += \
     board.ui

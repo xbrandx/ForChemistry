@@ -5,14 +5,26 @@ QString IdealGasLaw::VolumeInput;
 int IdealGasLaw::mole = 1;
 double IdealGasLaw::temperature = 24;
 
+Label * label0;
+Label * label1;
+Label * label2;
+Label * label3;
+Label * label4;
+LineEdit * line1;
+LineEdit * line2;
+PushButton * button1;
+PushButton * button2;
+ComboBox * combo;
+DoubleSpinBox * spin;
+
 IdealGasLaw::IdealGasLaw(QWidget *par)
     : parent(par)
 {
-    Label * label0 = new Label("- Ideal Gas Law", 180, 10, parent);
-    Label * label1 = new Label("Mole #: ", 30, 45, parent);
-    Label * label2 = new Label("Temperature (C): ", 190, 45, parent);
-    Label * label3 = new Label("Enter Pressure (atm): ", 30, 85, parent);
-    Label * label4 = new Label("Enter Volume (L): ", 30, 125, parent);
+    label0 = new Label("- Ideal Gas Law", 180, 10, parent);
+    label1 = new Label("Mole #: ", 30, 45, parent);
+    label2 = new Label("Temperature (C): ", 190, 45, parent);
+    label3 = new Label("Enter Pressure (atm): ", 30, 85, parent);
+    label4 = new Label("Enter Volume (L): ", 30, 125, parent);
     QFont font1;
     font1.setPointSize(12);
     label0->setFont(font1);
@@ -26,27 +38,47 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
     label3->setFixedWidth(130);
     label4->setFont(font2);
 
-    LineEdit * line1 = new LineEdit(160, 80, parent);
-    LineEdit * line2 = new LineEdit(160, 120, parent);
+    line1 = new LineEdit(160, 80, parent);
+    line2 = new LineEdit(160, 120, parent);
     LineEdit::connect(line1, QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ PressureInput = d; });
     LineEdit::connect(line2, QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ VolumeInput = d; });
 
-    PushButton * button1 = new PushButton("Find Volume  ", 310, 80, parent);
-    PushButton * button2 = new PushButton("Find Pressure", 310, 120, parent);
+    button1 = new PushButton("Find Volume  ", 310, 80, parent);
+    button2 = new PushButton("Find Pressure", 310, 120, parent);
     PushButton::connect(button1, &QPushButton::clicked,
                         [=](){ CalculateVolume(); });
     PushButton::connect(button2, &QPushButton::clicked,
                         [=](){ CalculatePressure(); });
 
-    ComboBox * combo = new ComboBox(10, 10, 80, 40, parent);
+    combo = new ComboBox(10, 10, 80, 40, parent);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
                       [=](int index){ mole = index + 1; });
 
-    DoubleSpinBox * spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
+    spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
     DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
                       [=](double d){ temperature = d;});
+}
+
+IdealGasLaw::~IdealGasLaw()
+{
+    Clear();
+}
+
+void IdealGasLaw::Clear()
+{
+   delete label0;
+   delete label1;
+   delete label2;
+   delete label3;
+   delete label4;
+   delete line1;
+   delete line2;
+   delete button1;
+   delete button2;
+   delete combo;
+   delete spin;
 }
 
 QString IdealGasLaw::Name()

@@ -51,6 +51,7 @@
      <string>Menu</string>
     </property>
     <addaction name="actionIdeal_Gas_Law"/>
+    <addaction name="actiontest"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -65,6 +66,11 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actiontest">
+   <property name="text">
+    <string>test</string>
    </property>
   </action>
  </widget>

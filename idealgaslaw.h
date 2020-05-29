@@ -20,6 +20,8 @@ public:
     static int mole;
     static double temperature;
     IdealGasLaw(QWidget *par);
+    ~IdealGasLaw();
+    void Clear();
     QString Name();
     void CalculateVolume();
     void CalculatePressure();
