@@ -16,4 +16,11 @@ test::~test()
 void test::Clear()
 {
     delete label11;
+    label11 = NULL;
+    return;
+}
+
+QString test::Name()
+{
+    return "Test";
 }

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QString>
 #include "label.h"
 
 class test
@@ -12,6 +13,7 @@ public:
     test(QWidget *par);
     ~test();
     void Clear();
+    QString Name();
 };
 
 #endif // TEST_H

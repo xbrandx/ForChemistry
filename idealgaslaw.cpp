@@ -69,16 +69,28 @@ IdealGasLaw::~IdealGasLaw()
 void IdealGasLaw::Clear()
 {
    delete label0;
+   label0 = NULL;
    delete label1;
+   label1 = NULL;
    delete label2;
+   label2 = NULL;
    delete label3;
+   label3 = NULL;
    delete label4;
+   label4 = NULL;
    delete line1;
+   line1 = NULL;
    delete line2;
+   line2 = NULL;
    delete button1;
+   button1 = NULL;
    delete button2;
+   button2 = NULL;
    delete combo;
+   combo = NULL;
    delete spin;
+   spin = NULL;
+   return;
 }
 
 QString IdealGasLaw::Name()
