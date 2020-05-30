@@ -1,4 +1,7 @@
 #include "idealgaslaw.h"
+#include <QDebug>
+#include <memory>
+using namespace std;
 
 QString IdealGasLaw::PressureInput;
 QString IdealGasLaw::VolumeInput;
@@ -25,6 +28,8 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
     label2 = new Label("Temperature (C): ", 190, 45, parent);
     label3 = new Label("Enter Pressure (atm): ", 30, 85, parent);
     label4 = new Label("Enter Volume (L): ", 30, 125, parent);
+    unique_ptr<Label> label6(new Label("test", 310, 140, parent));
+    label6->show();
     QFont font1;
     font1.setPointSize(12);
     label0->setFont(font1);
@@ -69,27 +74,27 @@ IdealGasLaw::~IdealGasLaw()
 void IdealGasLaw::Clear()
 {
    delete label0;
-   label0 = NULL;
+   label0 = nullptr;
    delete label1;
-   label1 = NULL;
+   label1 = nullptr;
    delete label2;
-   label2 = NULL;
+   label2 = nullptr;
    delete label3;
-   label3 = NULL;
+   label3 = nullptr;
    delete label4;
-   label4 = NULL;
+   label4 = nullptr;
    delete line1;
-   line1 = NULL;
+   line1 = nullptr;
    delete line2;
-   line2 = NULL;
+   line2 = nullptr;
    delete button1;
-   button1 = NULL;
+   button1 = nullptr;
    delete button2;
-   button2 = NULL;
+   button2 = nullptr;
    delete combo;
-   combo = NULL;
+   combo = nullptr;
    delete spin;
-   spin = NULL;
+   spin = nullptr;
    return;
 }
 

@@ -16,7 +16,7 @@ test::~test()
 void test::Clear()
 {
     delete label11;
-    label11 = NULL;
+    label11 = nullptr;
     return;
 }
 

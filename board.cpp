@@ -44,7 +44,7 @@ void Board::on_actiontest_triggered()
     qDebug() << "2.before clear gaslaw";
     if (gaslaw) gaslaw->Clear();
     qDebug() << "2.clear";
-    resize(200, 200);
+    resize(430, 200);
     test0 = new test(ui->centralWidget);
     setWindowTitle(test0->Name());
 }
