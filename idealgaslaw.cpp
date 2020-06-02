@@ -1,18 +1,11 @@
 #include "idealgaslaw.h"
 #include <QDebug>
-#include <memory>
-using namespace std;
 
 QString IdealGasLaw::PressureInput;
 QString IdealGasLaw::VolumeInput;
 int IdealGasLaw::mole = 1;
 double IdealGasLaw::temperature = 24;
 
-Label * label0;
-Label * label1;
-Label * label2;
-Label * label3;
-Label * label4;
 LineEdit * line1;
 LineEdit * line2;
 PushButton * button1;
@@ -21,15 +14,15 @@ ComboBox * combo;
 DoubleSpinBox * spin;
 
 IdealGasLaw::IdealGasLaw(QWidget *par)
-    : parent(par)
+    : parent(par),
+      label0(new Label("- Ideal Gas Law", 180, 10, parent)),
+      label1(new Label("Mole #: ", 30, 45, parent)),
+      label2(new Label("Temperature (C): ", 190, 45, parent)),
+      label3(new Label("Enter Pressure (atm): ", 30, 85, parent)),
+      label4(new Label("Enter Volume (L): ", 30, 125, parent))
+    /*line1(new LineEdit(160, 80, parent)),
+      line2(new LineEdit(160, 120, parent))*/
 {
-    label0 = new Label("- Ideal Gas Law", 180, 10, parent);
-    label1 = new Label("Mole #: ", 30, 45, parent);
-    label2 = new Label("Temperature (C): ", 190, 45, parent);
-    label3 = new Label("Enter Pressure (atm): ", 30, 85, parent);
-    label4 = new Label("Enter Volume (L): ", 30, 125, parent);
-    unique_ptr<Label> label6(new Label("test", 310, 140, parent));
-    label6->show();
     QFont font1;
     font1.setPointSize(12);
     label0->setFont(font1);
@@ -68,34 +61,26 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
 
 IdealGasLaw::~IdealGasLaw()
 {
+    qDebug() << "dtor before";
     Clear();
+    qDebug() << "dtor after";
 }
 
 void IdealGasLaw::Clear()
 {
-   delete label0;
-   label0 = nullptr;
-   delete label1;
-   label1 = nullptr;
-   delete label2;
-   label2 = nullptr;
-   delete label3;
-   label3 = nullptr;
-   delete label4;
-   label4 = nullptr;
-   delete line1;
-   line1 = nullptr;
-   delete line2;
-   line2 = nullptr;
-   delete button1;
-   button1 = nullptr;
-   delete button2;
-   button2 = nullptr;
-   delete combo;
-   combo = nullptr;
-   delete spin;
-   spin = nullptr;
-   return;
+    delete line1;
+    line1 = nullptr;
+    delete line2;
+    line2 = nullptr;
+    delete button1;
+    button1 = nullptr;
+    delete button2;
+    button2 = nullptr;
+    delete combo;
+    combo = nullptr;
+    delete spin;
+    spin = nullptr;
+    return;
 }
 
 QString IdealGasLaw::Name()
