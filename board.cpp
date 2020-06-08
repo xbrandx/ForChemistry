@@ -5,7 +5,7 @@
 
 IdealGasLaw * gaslaw;
 
-test * test0;
+IsoThermal * iso;
 
 Board::Board(QWidget *parent)
     : QMainWindow(parent)
@@ -19,13 +19,12 @@ Board::~Board()
     delete ui;
 }
 
-
 void Board::on_actionIdeal_Gas_Law_triggered()
 {
     qDebug() << "1.before clear gaslaw";
     if (gaslaw) delete gaslaw;
     qDebug() << "1.before clear test0";
-    if (test0) delete test0;
+    if (iso) delete iso;
     qDebug() << "1.clear";
     resize(430,200);
     gaslaw = new IdealGasLaw(ui->centralWidget);
@@ -40,11 +39,11 @@ void Board::on_actionExit_triggered()
 void Board::on_actiontest_triggered()
 {
     qDebug() << "2.before clear test0";
-    if (test0) delete test0;
+    if (iso) delete iso;
     qDebug() << "2.before clear gaslaw";
     if (gaslaw) delete gaslaw;
     qDebug() << "2.clear";
     resize(430, 200);
-    test0 = new test(ui->centralWidget);
-    setWindowTitle(test0->Name());
+    iso = new IsoThermal(ui->centralWidget);
+    setWindowTitle(iso->Name());
 }

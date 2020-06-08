@@ -70,7 +70,7 @@
   </action>
   <action name="actiontest">
    <property name="text">
-    <string>test</string>
+    <string>IsoThermal</string>
    </property>
   </action>
  </widget>

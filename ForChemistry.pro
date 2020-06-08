@@ -19,22 +19,22 @@ SOURCES += \
     combobox.cpp \
     doublespinbox.cpp \
     idealgaslaw.cpp \
+    isothermal.cpp \
     label.cpp \
     lineedit.cpp \
     main.cpp \
     board.cpp \
     pushbutton.cpp \
-    test.cpp
 
 HEADERS += \
     board.h \
     combobox.h \
     doublespinbox.h \
     idealgaslaw.h \
+    isothermal.h \
     label.h \
     lineedit.h \
     pushbutton.h \
-    test.h
 
 FORMS += \
     board.ui

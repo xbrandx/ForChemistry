@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include "idealgaslaw.h"
-
-#include "test.h"
+#include "isothermal.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Board; }
@@ -13,18 +12,13 @@ QT_END_NAMESPACE
 class Board : public QMainWindow
 {
     Q_OBJECT
-
 public:
     Board(QWidget *parent = nullptr);
     ~Board();
-
 private slots:
     void on_actionIdeal_Gas_Law_triggered();
-
     void on_actionExit_triggered();
-
     void on_actiontest_triggered();
-
 private:
     Ui::Board *ui;
 };
