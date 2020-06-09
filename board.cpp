@@ -43,7 +43,7 @@ void Board::on_actiontest_triggered()
     qDebug() << "2.before clear gaslaw";
     if (gaslaw) delete gaslaw;
     qDebug() << "2.clear";
-    resize(430, 200);
+    resize(430, 300);
     iso = new IsoThermal(ui->centralWidget);
     setWindowTitle(iso->Name());
 }

@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QString>
 #include <QMessageBox>
-#include <memory>
+//#include <memory>
 #include "label.h"
 #include "lineedit.h"
 #include "pushbutton.h"
@@ -16,8 +16,7 @@ class IdealGasLaw
 {
 public:
     QWidget * parent;
-    static QString PressureInput;
-    static QString VolumeInput;
+    static QString PressureInput, VolumeInput;
     static int mole;
     static double temperature;
     IdealGasLaw(QWidget *par);
@@ -27,12 +26,12 @@ public:
     void CalculateVolume();
     void CalculatePressure();
 private:
-    std::unique_ptr<Label> label0;
+  /*std::unique_ptr<Label> label0;
     std::unique_ptr<Label> label1;
     std::unique_ptr<Label> label2;
     std::unique_ptr<Label> label3;
     std::unique_ptr<Label> label4;
-  /*std::unique_ptr<LineEdit> line1;
+    std::unique_ptr<LineEdit> line1;
     std::unique_ptr<LineEdit> line2;
     std::unique_ptr<PushButton> button1;
     std::unique_ptr<PushButton> button2;

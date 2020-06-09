@@ -6,23 +6,27 @@ QString IdealGasLaw::VolumeInput;
 int IdealGasLaw::mole = 1;
 double IdealGasLaw::temperature = 24;
 
-LineEdit * line1;
-LineEdit * line2;
-PushButton * button1;
-PushButton * button2;
-ComboBox * combo;
-DoubleSpinBox * spin;
+Label * label0, * label1, * label2, * label3, * label4;
+LineEdit * line1, * line2;
+PushButton * button1, * button2;
+ComboBox * combo1;
+DoubleSpinBox * spin1;
 
 IdealGasLaw::IdealGasLaw(QWidget *par)
-    : parent(par),
-      label0(new Label("- Ideal Gas Law", 180, 10, parent)),
+    : parent(par)
+    /*label0(new Label("- Ideal Gas Law", 180, 10, parent)),
       label1(new Label("Mole #: ", 30, 45, parent)),
       label2(new Label("Temperature (C): ", 190, 45, parent)),
       label3(new Label("Enter Pressure (atm): ", 30, 85, parent)),
       label4(new Label("Enter Volume (L): ", 30, 125, parent))
-    /*line1(new LineEdit(160, 80, parent)),
+      line1(new LineEdit(160, 80, parent)),
       line2(new LineEdit(160, 120, parent))*/
 {
+    label0 = new Label("- Ideal Gas Law", 180, 10, parent);
+    label1 = new Label("Mole #: ", 30, 45, parent);
+    label2 = new Label("Temperature (C): ", 190, 45, parent);
+    label3 = new Label("Enter Pressure (atm): ", 30, 85, parent);
+    label4 = new Label("Enter Volume (L): ", 30, 125, parent);
     QFont font1;
     font1.setPointSize(12);
     label0->setFont(font1);
@@ -50,13 +54,13 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
     PushButton::connect(button2, &QPushButton::clicked,
                         [=](){ CalculatePressure(); });
 
-    combo = new ComboBox(10, 10, 80, 40, parent);
-    ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
+    combo1 = new ComboBox(10, 10, 80, 40, parent);
+    ComboBox::connect(combo1, QOverload<int>::of(&QComboBox::activated),
                       [=](int index){ mole = index + 1; });
 
-    spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
-    DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ temperature = d;});
+    spin1 = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
+    DoubleSpinBox::connect(spin1, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+                      [=](double d){ temperature = d; });
 }
 
 IdealGasLaw::~IdealGasLaw()
@@ -68,6 +72,16 @@ IdealGasLaw::~IdealGasLaw()
 
 void IdealGasLaw::Clear()
 {
+    delete label0;
+    label0 = nullptr;
+    delete label1;
+    label1 = nullptr;
+    delete label2;
+    label2 = nullptr;
+    delete label3;
+    label3 = nullptr;
+    delete label4;
+    label4 = nullptr;
     delete line1;
     line1 = nullptr;
     delete line2;
@@ -76,10 +90,10 @@ void IdealGasLaw::Clear()
     button1 = nullptr;
     delete button2;
     button2 = nullptr;
-    delete combo;
-    combo = nullptr;
-    delete spin;
-    spin = nullptr;
+    delete combo1;
+    combo1 = nullptr;
+    delete spin1;
+    spin1 = nullptr;
     return;
 }
 
@@ -90,8 +104,7 @@ QString IdealGasLaw::Name()
 
 void IdealGasLaw::CalculateVolume()
 {
-    double PressureValue;
-    double VolumeValue;
+    double PressureValue, VolumeValue;
     double R = 0.0821;
     double TempAdjust = temperature + 273;
 
@@ -99,7 +112,7 @@ void IdealGasLaw::CalculateVolume()
     {
         QMessageBox::about(parent, "Error", "Invalid Input! Please Enter A Valid Number.");
     } else {
-        PressureValue = std::stod(PressureInput.toStdString());
+        PressureValue = PressureInput.toDouble();
         VolumeValue = (mole*R*TempAdjust)/PressureValue;
         QMessageBox::about(parent, "Volume Value", "The volume is " + QString::number(VolumeValue) + " L.");
     }
@@ -107,8 +120,7 @@ void IdealGasLaw::CalculateVolume()
 
 void IdealGasLaw::CalculatePressure()
 {
-    double PressureValue;
-    double VolumeValue;
+    double PressureValue, VolumeValue;
     double R = 0.0821;
     double TempAdjust = temperature + 273;
 
@@ -116,7 +128,7 @@ void IdealGasLaw::CalculatePressure()
     {
         QMessageBox::about(parent, "Error", "Invalid Input! Please Enter A Valid Number.");
     } else {
-        VolumeValue = std::stod(VolumeInput.toStdString());
+        VolumeValue = VolumeInput.toDouble();
         PressureValue = (mole*R*TempAdjust)/VolumeValue;
         QMessageBox::about(parent, "Pressure Value", "The pressure is " + QString::number(PressureValue) + " atm.");
     }
