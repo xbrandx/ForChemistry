@@ -1,11 +1,10 @@
 #include "board.h"
 #include "ui_board.h"
-
 #include <QDebug>
 
-IdealGasLaw * gaslaw;
+IdealGasLaw * gaslaw=0;
 
-IsoThermal * iso;
+IsoThermal * iso=0;
 
 Board::Board(QWidget *parent)
     : QMainWindow(parent)
@@ -21,11 +20,16 @@ Board::~Board()
 
 void Board::on_actionIdeal_Gas_Law_triggered()
 {
-    qDebug() << "1.before clear gaslaw";
-    if (gaslaw) delete gaslaw;
-    qDebug() << "1.before clear test0";
-    if (iso) delete iso;
-    qDebug() << "1.clear";
+    if (gaslaw)
+    {
+        delete gaslaw;
+        gaslaw = 0;
+    }
+    if (iso)
+    {
+        delete iso;
+        iso = 0;
+    }
     resize(430,200);
     gaslaw = new IdealGasLaw(ui->centralWidget);
     setWindowTitle(gaslaw->Name());
@@ -36,13 +40,18 @@ void Board::on_actionExit_triggered()
     QApplication::quit();
 }
 
-void Board::on_actiontest_triggered()
+void Board::on_actionIsoThermal_triggered()
 {
-    qDebug() << "2.before clear test0";
-    if (iso) delete iso;
-    qDebug() << "2.before clear gaslaw";
-    if (gaslaw) delete gaslaw;
-    qDebug() << "2.clear";
+    if (iso)
+    {
+        delete iso;
+        iso = 0;
+    }
+    if (gaslaw)
+    {
+        delete gaslaw;
+        gaslaw = 0;
+    }
     resize(430, 300);
     iso = new IsoThermal(ui->centralWidget);
     setWindowTitle(iso->Name());

@@ -14,6 +14,11 @@
 
 class IdealGasLaw
 {
+    Label *label[5];
+    LineEdit *line[2];
+    PushButton *button[2];
+    ComboBox *combo;
+    DoubleSpinBox *spin;
 public:
     QWidget * parent;
     static QString PressureInput, VolumeInput;
@@ -25,18 +30,6 @@ public:
     QString Name();
     void CalculateVolume();
     void CalculatePressure();
-private:
-  /*std::unique_ptr<Label> label0;
-    std::unique_ptr<Label> label1;
-    std::unique_ptr<Label> label2;
-    std::unique_ptr<Label> label3;
-    std::unique_ptr<Label> label4;
-    std::unique_ptr<LineEdit> line1;
-    std::unique_ptr<LineEdit> line2;
-    std::unique_ptr<PushButton> button1;
-    std::unique_ptr<PushButton> button2;
-    std::unique_ptr<ComboBox> combo;
-    std::unique_ptr<DoubleSpinBox> spin;*/
 };
 
 #endif // IDEALGASLAW_H

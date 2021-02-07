@@ -15,6 +15,11 @@
 
 class IsoThermal
 {
+    Label *label[7];
+    LineEdit *line[4];
+    PushButton *button[2];
+    ComboBox *combo;
+    DoubleSpinBox *spin;
 public:
     QWidget * parent;
     static QString PressureInput1, PressureInput2, VolumeInput1, VolumeInput2;

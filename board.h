@@ -18,7 +18,7 @@ public:
 private slots:
     void on_actionIdeal_Gas_Law_triggered();
     void on_actionExit_triggered();
-    void on_actiontest_triggered();
+    void on_actionIsoThermal_triggered();
 private:
     Ui::Board *ui;
 };

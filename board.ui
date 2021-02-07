@@ -51,7 +51,7 @@
      <string>Menu</string>
     </property>
     <addaction name="actionIdeal_Gas_Law"/>
-    <addaction name="actiontest"/>
+    <addaction name="actionIsoThermal"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -68,7 +68,7 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actiontest">
+  <action name="actionIsoThermal">
    <property name="text">
     <string>IsoThermal</string>
    </property>

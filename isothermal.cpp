@@ -7,64 +7,54 @@ QString IsoThermal::VolumeInput2;
 int IsoThermal::mole = 1;
 double IsoThermal::temperature = 24;
 
-Label * label10, * label11, * label12, * label13, * label14, * label15, * label16;
-LineEdit * line11, * line12, * line13, * line14;
-PushButton * button11, * button12;
-ComboBox * combo11;
-DoubleSpinBox * spin11;
-
 IsoThermal::IsoThermal(QWidget *par)
     : parent(par)
 {
-    label10 = new Label("- Isothermal", 180, 10, parent);
-    label11 = new Label("Mole #: ", 30, 45, parent);
-    label12 = new Label("Temperature (C): ", 190, 45, parent);
-    label13 = new Label("Enter Pressure 1 (atm): ", 30, 85, parent);
-    label14 = new Label("Enter Pressure 2 (atm): ", 30, 115, parent);
-    label15 = new Label("Enter Volume 1 (L): ", 30, 165, parent);
-    label16 = new Label("Enter Volume 2 (L): ", 30, 195, parent);
+    label[0] = new Label("- Isothermal", 180, 10, parent);
+    label[1] = new Label("Mole #: ", 30, 45, parent);
+    label[2] = new Label("Temperature (C): ", 190, 45, parent);
+    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 85, parent);
+    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 115, parent);
+    label[5] = new Label("Enter Volume 1 (L): ", 30, 165, parent);
+    label[6] = new Label("Enter Volume 2 (L): ", 30, 195, parent);
     QFont font1;
     font1.setPointSize(12);
-    label10->setFont(font1);
-    label10->setFixedWidth(130);
-    label10->setFixedHeight(13);
+    label[0]->setFont(font1);
+    label[0]->setFixedWidth(130);
+    label[0]->setFixedHeight(13);
     QFont font2;
     font2.setPointSize(8);
-    label11->setFont(font2);
-    label12->setFont(font2);
-    label13->setFont(font2);
-    label13->setFixedWidth(130);
-    label14->setFont(font2);
-    label14->setFixedWidth(130);
-    label15->setFont(font2);
-    label16->setFont(font2);
+    for (int i = 1; i < 7; i++)
+        label[i]->setFont(font2);
+    label[3]->setFixedWidth(130);
+    label[4]->setFixedWidth(130);
 
-    line11 = new LineEdit(160, 80, parent);
-    line12 = new LineEdit(160, 110, parent);
-    line13 = new LineEdit(160, 160, parent);
-    line14 = new LineEdit(160, 190, parent);
-    LineEdit::connect(line11, QOverload<const QString &>::of(&QLineEdit::textChanged),
+    line[0] = new LineEdit(160, 80, parent);
+    line[1] = new LineEdit(160, 110, parent);
+    line[2] = new LineEdit(160, 160, parent);
+    line[3] = new LineEdit(160, 190, parent);
+    LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ PressureInput1 = d; });
-    LineEdit::connect(line12, QOverload<const QString &>::of(&QLineEdit::textChanged),
+    LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ PressureInput2 = d; });
-    LineEdit::connect(line13, QOverload<const QString &>::of(&QLineEdit::textChanged),
+    LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ VolumeInput1 = d; });
-    LineEdit::connect(line14, QOverload<const QString &>::of(&QLineEdit::textChanged),
+    LineEdit::connect(line[3], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ VolumeInput2 = d; });
 
-    button11 = new PushButton("Work Done", 310, 110, parent);
-    button12 = new PushButton("Work Done", 310, 190, parent);
-    PushButton::connect(button11, &QPushButton::clicked,
+    for (int i = 0; i < 2; i++)
+        button[i] = new PushButton("Work Done", 310, 110+80*i, parent);
+    PushButton::connect(button[0], &QPushButton::clicked,
                         [=](){ CalculateWorkFromPressure(); });
-    PushButton::connect(button12, &QPushButton::clicked,
+    PushButton::connect(button[1], &QPushButton::clicked,
                         [=](){ CalculateWorkFromVolume(); });
 
-    combo11 = new ComboBox(10, 10, 80, 40, parent);
-    ComboBox::connect(combo11, QOverload<int>::of(&QComboBox::activated),
+    combo = new ComboBox(10, 10, 80, 40, parent);
+    ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
                       [=](int index){ mole = index + 1; });
 
-    spin11 = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
-    DoubleSpinBox::connect(spin11, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+    spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
+    DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
                       [=](double d){ temperature = d; });
 }
 
@@ -75,36 +65,25 @@ IsoThermal::~IsoThermal()
 
 void IsoThermal::Clear()
 {
-    delete label10;
-    label10 = nullptr;
-    delete label11;
-    label11 = nullptr;
-    delete label12;
-    label12 = nullptr;
-    delete label13;
-    label13 = nullptr;
-    delete label14;
-    label14 = nullptr;
-    delete label15;
-    label15 = nullptr;
-    delete label16;
-    label16 = nullptr;
-    delete line11;
-    line11 = nullptr;
-    delete line12;
-    line12 = nullptr;
-    delete line13;
-    line13 = nullptr;
-    delete line14;
-    line14 = nullptr;
-    delete button11;
-    button11 = nullptr;
-    delete button12;
-    button12 = nullptr;
-    delete combo11;
-    combo11 = nullptr;
-    delete spin11;
-    spin11 = nullptr;
+    for (int i = 0; i < 7; i++)
+    {
+        delete label[i];
+        label[i] = nullptr;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        delete line[i];
+        line[i] = nullptr;
+    }
+    for (int i = 0; i < 2; i++)
+    {
+        delete button[i];
+        button[i] = nullptr;
+    }
+    delete combo;
+    combo = nullptr;
+    delete spin;
+    spin = nullptr;
     return;
 }
 
