@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include <QString>
+#include "formula.h"
 
 class ComboBox : public QComboBox
 {

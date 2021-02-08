@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     combobox.cpp \
     doublespinbox.cpp \
+    formula.cpp \
     idealgaslaw.cpp \
     isothermal.cpp \
     label.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     board.h \
     combobox.h \
     doublespinbox.h \
+    formula.h \
     idealgaslaw.h \
     isothermal.h \
     label.h \

@@ -2,6 +2,8 @@
 #include "ui_board.h"
 #include <QDebug>
 
+Formula *formula;
+
 IdealGasLaw * gaslaw=0;
 
 IsoThermal * iso=0;

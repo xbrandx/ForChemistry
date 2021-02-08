@@ -5,6 +5,8 @@
 #include "idealgaslaw.h"
 #include "isothermal.h"
 
+class Formula;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Board; }
 QT_END_NAMESPACE
