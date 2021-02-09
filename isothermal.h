@@ -12,8 +12,9 @@
 #include "combobox.h"
 #include "doublespinbox.h"
 #include "math.h"
+#include "formula.h"
 
-class IsoThermal
+class IsoThermal : public Formula
 {
     Label *label[7];
     LineEdit *line[4];
@@ -21,16 +22,16 @@ class IsoThermal
     ComboBox *combo;
     DoubleSpinBox *spin;
 public:
-    QWidget * parent;
+//    QWidget * parent;
     static QString PressureInput1, PressureInput2, VolumeInput1, VolumeInput2;
     static int mole;
     static double temperature;
     IsoThermal(QWidget *par);
     ~IsoThermal();
     void Clear();
-    QString Name();
-    void CalculateWorkFromPressure();
-    void CalculateWorkFromVolume();
+    QString FormulaName();
+    void CalculateWorkFromPressure(QWidget *par);
+    void CalculateWorkFromVolume(QWidget *par);
 };
 
 #endif // ISOTHERMAL_H

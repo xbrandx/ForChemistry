@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QString>
+#include "formula.h"
 
 class Label : public QLabel
 {

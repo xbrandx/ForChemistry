@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QString>
+#include "formula.h"
 
 class IdealGasLaw;
 

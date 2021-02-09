@@ -11,8 +11,9 @@
 #include "pushbutton.h"
 #include "combobox.h"
 #include "doublespinbox.h"
+#include "formula.h"
 
-class IdealGasLaw
+class IdealGasLaw : public Formula
 {
     Label *label[5];
     LineEdit *line[2];
@@ -20,16 +21,15 @@ class IdealGasLaw
     ComboBox *combo;
     DoubleSpinBox *spin;
 public:
-    QWidget * parent;
     static QString PressureInput, VolumeInput;
     static int mole;
     static double temperature;
     IdealGasLaw(QWidget *par);
     ~IdealGasLaw();
     void Clear();
-    QString Name();
-    void CalculateVolume();
-    void CalculatePressure();
+    QString FormulaName();
+    void CalculateVolume(QWidget *par);
+    void CalculatePressure(QWidget *par);
 };
 
 #endif // IDEALGASLAW_H

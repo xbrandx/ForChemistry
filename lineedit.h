@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QLineEdit>
+#include "formula.h"
 
 class LineEdit : public QLineEdit
 {

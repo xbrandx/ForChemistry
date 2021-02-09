@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "idealgaslaw.h"
 #include "isothermal.h"
+#include "formula.h"
 
 class Formula;
 
@@ -19,8 +20,8 @@ public:
     ~Board();
 private slots:
     void on_actionIdeal_Gas_Law_triggered();
-    void on_actionExit_triggered();
     void on_actionIsoThermal_triggered();
+    void on_actionExit_triggered();
 private:
     Ui::Board *ui;
 };

@@ -8,15 +8,15 @@ int IsoThermal::mole = 1;
 double IsoThermal::temperature = 24;
 
 IsoThermal::IsoThermal(QWidget *par)
-    : parent(par)
+    : Formula(par)
 {
-    label[0] = new Label("- Isothermal", 180, 10, parent);
-    label[1] = new Label("Mole #: ", 30, 45, parent);
-    label[2] = new Label("Temperature (C): ", 190, 45, parent);
-    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 85, parent);
-    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 115, parent);
-    label[5] = new Label("Enter Volume 1 (L): ", 30, 165, parent);
-    label[6] = new Label("Enter Volume 2 (L): ", 30, 195, parent);
+    label[0] = new Label("- Isothermal", 180, 10, par);
+    label[1] = new Label("Mole #: ", 30, 45, par);
+    label[2] = new Label("Temperature (C): ", 190, 45, par);
+    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 85, par);
+    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 115, par);
+    label[5] = new Label("Enter Volume 1 (L): ", 30, 165, par);
+    label[6] = new Label("Enter Volume 2 (L): ", 30, 195, par);
     QFont font1;
     font1.setPointSize(12);
     label[0]->setFont(font1);
@@ -29,10 +29,10 @@ IsoThermal::IsoThermal(QWidget *par)
     label[3]->setFixedWidth(130);
     label[4]->setFixedWidth(130);
 
-    line[0] = new LineEdit(160, 80, parent);
-    line[1] = new LineEdit(160, 110, parent);
-    line[2] = new LineEdit(160, 160, parent);
-    line[3] = new LineEdit(160, 190, parent);
+    line[0] = new LineEdit(160, 80, par);
+    line[1] = new LineEdit(160, 110, par);
+    line[2] = new LineEdit(160, 160, par);
+    line[3] = new LineEdit(160, 190, par);
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ PressureInput1 = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
@@ -43,17 +43,17 @@ IsoThermal::IsoThermal(QWidget *par)
                       [=](QString d){ VolumeInput2 = d; });
 
     for (int i = 0; i < 2; i++)
-        button[i] = new PushButton("Work Done", 310, 110+80*i, parent);
+        button[i] = new PushButton("Work Done", 310, 110+80*i, par);
     PushButton::connect(button[0], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(); });
+                        [=](){ CalculateWorkFromPressure(par); });
     PushButton::connect(button[1], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(); });
+                        [=](){ CalculateWorkFromVolume(par); });
 
-    combo = new ComboBox(10, 10, 80, 40, parent);
+    combo = new ComboBox(10, 10, 80, 40, par);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
                       [=](int index){ mole = index + 1; });
 
-    spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", parent);
+    spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", par);
     DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
                       [=](double d){ temperature = d; });
 }
@@ -87,12 +87,12 @@ void IsoThermal::Clear()
     return;
 }
 
-QString IsoThermal::Name()
+QString IsoThermal::FormulaName()
 {
     return "Isothermal";
 }
 
-void IsoThermal::CalculateWorkFromPressure()
+void IsoThermal::CalculateWorkFromPressure(QWidget *par)
 {
     double PressureValue1, PressureValue2, work;
     double R = 0.0821;
@@ -103,19 +103,19 @@ void IsoThermal::CalculateWorkFromPressure()
 
     if (ok1 == false || ok2 == false)
     {
-        QMessageBox::about(parent, "Error", "Invalid Input! Please Enter A Valid Number.");
+        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
     } else if (d1 * d2 <= 0.0f)
     {
-        QMessageBox::about(parent, "Error", "Pressure1/Pressure2 Needs to be Greater Than 0.");
+        QMessageBox::about(par, "Error", "Pressure1/Pressure2 Needs to be Greater Than 0.");
     } else {
         PressureValue1 = PressureInput1.toDouble();
         PressureValue2 = PressureInput2.toDouble();
         work = -(mole*R*TempAdjust*log(PressureValue1/PressureValue2));
-        QMessageBox::about(parent, "Work Done", "The isothermal work done is " + QString::number(work) + " J.");
+        QMessageBox::about(par, "Work Done", "The isothermal work done is " + QString::number(work) + " J.");
     }
 }
 
-void IsoThermal::CalculateWorkFromVolume()
+void IsoThermal::CalculateWorkFromVolume(QWidget *par)
 {
     double VolumeValue1, VolumeValue2, work;
     double R = 0.0821;
@@ -126,14 +126,14 @@ void IsoThermal::CalculateWorkFromVolume()
 
     if (ok1 == false || ok2 == false)
     {
-        QMessageBox::about(parent, "Error", "Invalid Input! Please Enter A Valid Number.");
+        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
     } else if (d1 * d2 <= 0.0f)
     {
-        QMessageBox::about(parent, "Error", "Volume2/Volume1 Needs to be Greater Than 0.");
+        QMessageBox::about(par, "Error", "Volume2/Volume1 Needs to be Greater Than 0.");
     } else {
         VolumeValue1 = PressureInput1.toDouble();
         VolumeValue2 = PressureInput2.toDouble();
         work = -(mole*R*TempAdjust*log(VolumeValue2/VolumeValue1));
-        QMessageBox::about(parent, "Work Done", "The isothermal work done is " + QString::number(work) + " J.");
+        QMessageBox::about(par, "Work Done", "The isothermal work done is " + QString::number(work) + " J.");
     }
 }
