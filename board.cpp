@@ -19,13 +19,9 @@ Board::~Board()
 
 void Board::on_actionIdeal_Gas_Law_triggered()
 {
-    qDebug() << "first?";
     if (formula) formula->Clear();
-    qDebug() << "second?";
     resize(430,200);
-    qDebug() << "third?";
     formula = new IdealGasLaw(ui->centralWidget);
-    qDebug() << "fourth?";
     setWindowTitle(formula->FormulaName());
 }
 

@@ -1,7 +1,5 @@
 #include "doublespinbox.h"
 
-extern Formula *formula;
-
 DoubleSpinBox::DoubleSpinBox(int a, double b, double c, double d, double e,
                              int x, int y,
                              QString s,
@@ -14,6 +12,5 @@ DoubleSpinBox::DoubleSpinBox(int a, double b, double c, double d, double e,
     setSingleStep(d);
     setValue(e);
     setSuffix(s);
-    formula->AddDoubleSpinBox(this);
     show();
 }

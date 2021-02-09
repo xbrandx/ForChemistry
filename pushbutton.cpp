@@ -10,7 +10,6 @@ PushButton::PushButton(QString t,
 {
     setText(t);
     move(x,y);
-    formula->AddPushButton(this);
     show();
 }
 

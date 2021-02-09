@@ -5,7 +5,6 @@
 #include <QWidget>
 #include <QDoubleSpinBox>
 #include <QString>
-#include "formula.h"
 
 class DoubleSpinBox : public QDoubleSpinBox
 {
