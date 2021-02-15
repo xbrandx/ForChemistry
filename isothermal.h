@@ -16,9 +16,9 @@
 
 class IsoThermal : public Formula
 {
-    Label *label[7];
+    Label *label[9];
     LineEdit *line[4];
-    PushButton *button[2];
+    PushButton *button[10];
     ComboBox *combo;
     DoubleSpinBox *spin;
 public:

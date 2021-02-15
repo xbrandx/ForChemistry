@@ -70,7 +70,10 @@
   </action>
   <action name="actionIsoThermal">
    <property name="text">
-    <string>IsoThermal</string>
+    <string>Isothermal</string>
+   </property>
+   <property name="toolTip">
+    <string>Isothermal</string>
    </property>
   </action>
  </widget>

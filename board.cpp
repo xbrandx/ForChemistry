@@ -28,7 +28,7 @@ void Board::on_actionIdeal_Gas_Law_triggered()
 void Board::on_actionIsoThermal_triggered()
 {
     if (formula) formula->Clear();
-    resize(430, 300);
+    resize(430, 480);
     formula = new IsoThermal(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }

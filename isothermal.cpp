@@ -13,26 +13,34 @@ IsoThermal::IsoThermal(QWidget *par)
     label[0] = new Label("- Isothermal", 180, 10, par);
     label[1] = new Label("Mole #: ", 30, 45, par);
     label[2] = new Label("Temperature (C): ", 190, 45, par);
-    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 85, par);
-    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 115, par);
-    label[5] = new Label("Enter Volume 1 (L): ", 30, 165, par);
-    label[6] = new Label("Enter Volume 2 (L): ", 30, 195, par);
-    QFont font1;
+    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 120, par);
+    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 150, par);
+    label[5] = new Label("Enter Volume 1 (L): ", 30, 295, par);
+    label[6] = new Label("Enter Volume 2 (L): ", 30, 325, par);
+    label[7] = new Label("Method 1 (Using Pressure Values):", 30, 85, par);
+    label[8] = new Label("Method 2 (Using Volume Values):", 30, 260, par);
+    QFont font1,font2,font3;
     font1.setPointSize(12);
     label[0]->setFont(font1);
     label[0]->setFixedWidth(130);
     label[0]->setFixedHeight(13);
-    QFont font2;
     font2.setPointSize(8);
+    font3.setPointSize(10);
     for (int i = 1; i < 7; i++)
         label[i]->setFont(font2);
+    for (int i = 7; i < 9; i++)
+        label[i]->setFont(font3);
     label[3]->setFixedWidth(130);
     label[4]->setFixedWidth(130);
+    label[7]->setFixedWidth(230);
+    label[8]->setFixedWidth(230);
+    label[7]->setFixedHeight(20);
+    label[8]->setFixedHeight(20);
 
-    line[0] = new LineEdit(160, 80, par);
-    line[1] = new LineEdit(160, 110, par);
-    line[2] = new LineEdit(160, 160, par);
-    line[3] = new LineEdit(160, 190, par);
+    line[0] = new LineEdit(160, 120, par);
+    line[1] = new LineEdit(160, 150, par);
+    line[2] = new LineEdit(160, 295, par);
+    line[3] = new LineEdit(160, 325, par);
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ PressureInput1 = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
@@ -43,7 +51,15 @@ IsoThermal::IsoThermal(QWidget *par)
                       [=](QString d){ VolumeInput2 = d; });
 
     for (int i = 0; i < 2; i++)
-        button[i] = new PushButton("Work Done", 310, 110+80*i, par);
+        button[i] = new PushButton("Work Done (w)", 160, 180+175*i, par);
+    for (int i = 2; i < 4; i++)
+        button[i] = new PushButton("Heat (q)", 160, 210+175*(i-2), par);
+    for (int i = 4; i < 6; i++)
+        button[i] = new PushButton("ΔU", 250, 180+175*(i-4), par);
+    for (int i = 6; i < 8; i++)
+        button[i] = new PushButton("ΔH", 340, 180+175*(i-6), par);
+    for (int i = 8; i < 10; i++)
+        button[i] = new PushButton("ΔS", 250, 210+175*(i-8), par);
     PushButton::connect(button[0], &QPushButton::clicked,
                         [=](){ CalculateWorkFromPressure(par); });
     PushButton::connect(button[1], &QPushButton::clicked,
