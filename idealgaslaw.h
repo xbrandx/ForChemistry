@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QString>
 #include <QMessageBox>
+#include <QDebug>
 //#include <memory>
 #include "label.h"
 #include "lineedit.h"
@@ -20,10 +21,10 @@ class IdealGasLaw : public Formula
     PushButton *button[2];
     ComboBox *combo;
     DoubleSpinBox *spin;
+    QString PressureInput, VolumeInput;
+    int mole = 1;
+    double temperature = 24;
 public:
-    static QString PressureInput, VolumeInput;
-    static int mole;
-    static double temperature;
     IdealGasLaw(QWidget *par);
     ~IdealGasLaw();
     void Clear();

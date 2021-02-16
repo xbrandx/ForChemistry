@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QString>
 #include <QMessageBox>
+#include <QDebug>
 //#include <memory>
 #include "label.h"
 #include "lineedit.h"
@@ -21,11 +22,10 @@ class IsoThermal : public Formula
     PushButton *button[10];
     ComboBox *combo;
     DoubleSpinBox *spin;
+    QString PressureInput1, PressureInput2, VolumeInput1, VolumeInput2;
+    int mole = 1;
+    double temperature = 24;
 public:
-//    QWidget * parent;
-    static QString PressureInput1, PressureInput2, VolumeInput1, VolumeInput2;
-    static int mole;
-    static double temperature;
     IsoThermal(QWidget *par);
     ~IsoThermal();
     void Clear();

@@ -1,41 +1,17 @@
 #include "isothermal.h"
 
-QString IsoThermal::PressureInput1;
-QString IsoThermal::PressureInput2;
-QString IsoThermal::VolumeInput1;
-QString IsoThermal::VolumeInput2;
-int IsoThermal::mole = 1;
-double IsoThermal::temperature = 24;
-
 IsoThermal::IsoThermal(QWidget *par)
     : Formula(par)
 {
-    label[0] = new Label("- Isothermal", 180, 10, par);
-    label[1] = new Label("Mole #: ", 30, 45, par);
-    label[2] = new Label("Temperature (C): ", 190, 45, par);
-    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 120, par);
-    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 150, par);
-    label[5] = new Label("Enter Volume 1 (L): ", 30, 295, par);
-    label[6] = new Label("Enter Volume 2 (L): ", 30, 325, par);
-    label[7] = new Label("Method 1 (Using Pressure Values):", 30, 85, par);
-    label[8] = new Label("Method 2 (Using Volume Values):", 30, 260, par);
-    QFont font1,font2,font3;
-    font1.setPointSize(12);
-    label[0]->setFont(font1);
-    label[0]->setFixedWidth(130);
-    label[0]->setFixedHeight(13);
-    font2.setPointSize(8);
-    font3.setPointSize(10);
-    for (int i = 1; i < 7; i++)
-        label[i]->setFont(font2);
-    for (int i = 7; i < 9; i++)
-        label[i]->setFont(font3);
-    label[3]->setFixedWidth(130);
-    label[4]->setFixedWidth(130);
-    label[7]->setFixedWidth(230);
-    label[8]->setFixedWidth(230);
-    label[7]->setFixedHeight(20);
-    label[8]->setFixedHeight(20);
+    label[0] = new Label("- Isothermal", 180, 10, 12, 130, 13, par);
+    label[1] = new Label("Mole #: ", 30, 45, 8, par);
+    label[2] = new Label("Temperature (C): ", 190, 45, 8, par);
+    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 120, 8, 130, par);
+    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 150, 8, 130, par);
+    label[5] = new Label("Enter Volume 1 (L): ", 30, 295, 8, par);
+    label[6] = new Label("Enter Volume 2 (L): ", 30, 325, 8, par);
+    label[7] = new Label("Method 1 (Using Pressure Values):", 30, 85, 10, 230, 20, par);
+    label[8] = new Label("Method 2 (Using Volume Values):", 30, 260, 10, 230, 20, par);
 
     line[0] = new LineEdit(160, 120, par);
     line[1] = new LineEdit(160, 150, par);
@@ -81,7 +57,7 @@ IsoThermal::~IsoThermal()
 
 void IsoThermal::Clear()
 {
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 9; i++)
     {
         delete label[i];
         label[i] = nullptr;
@@ -91,7 +67,7 @@ void IsoThermal::Clear()
         delete line[i];
         line[i] = nullptr;
     }
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
     {
         delete button[i];
         button[i] = nullptr;

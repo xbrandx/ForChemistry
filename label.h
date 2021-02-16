@@ -8,8 +8,11 @@
 
 class Label : public QLabel
 {
+    QFont font;
 public:
-    Label(QString t, int x, int y, QWidget * par);
+    Label(QString t, int x, int y, int f, QWidget * par);
+    Label(QString t, int x, int y, int f, int w, QWidget * par);
+    Label(QString t, int x, int y, int f, int w, int h, QWidget * par);
 };
 
 #endif // LABEL_H

@@ -1,29 +1,13 @@
 #include "idealgaslaw.h"
-#include <QDebug>
-
-QString IdealGasLaw::PressureInput;
-QString IdealGasLaw::VolumeInput;
-int IdealGasLaw::mole = 1;
-double IdealGasLaw::temperature = 24;
 
 IdealGasLaw::IdealGasLaw(QWidget *par)
     : Formula(par)
 {
-    label[0] = new Label("- Ideal Gas Law", 180, 10, par);
-    label[1] = new Label("Mole #: ", 30, 45, par);
-    label[2] = new Label("Temperature (C): ", 190, 45, par);
-    label[3] = new Label("Enter Pressure (atm): ", 30, 85, par);
-    label[4] = new Label("Enter Volume (L): ", 30, 125, par);
-    QFont font1;
-    font1.setPointSize(12);
-    label[0]->setFont(font1);
-    label[0]->setFixedWidth(130);
-    label[0]->setFixedHeight(13);
-    QFont font2;
-    font2.setPointSize(8);
-    for (int i = 1; i < 5; i++)
-        label[i]->setFont(font2);
-    label[3]->setFixedWidth(130);
+    label[0] = new Label("- Ideal Gas Law", 180, 10, 12, 130, 13, par);
+    label[1] = new Label("Mole #: ", 30, 45, 8, par);
+    label[2] = new Label("Temperature (C): ", 190, 45, 8, par);
+    label[3] = new Label("Enter Pressure (atm): ", 30, 85, 8, 130, par);
+    label[4] = new Label("Enter Volume (L): ", 30, 125, 8, par);
 
     for (int i = 0; i < 2; i++)
         line[i] = new LineEdit(160, 80+40*i, par);
