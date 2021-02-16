@@ -109,31 +109,29 @@ void IsoThermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, 
     double d1 = PressureInput1.toFloat(&ok1);
     double d2 = PressureInput2.toFloat(&ok2);
 
+    if (ok1 == true && ok2 == true && d1 > 0.0f && d2 > 0.0f)
+    {
+        PressureValue1 = PressureInput1.toDouble();
+        PressureValue2 = PressureInput2.toDouble();
+        work = mole*R*TempAdjust*log(PressureValue1/PressureValue2);
+    }
+
     if (ok1 == false || ok2 == false)
     {
         QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (d1 * d2 <= 0.0f)
+    } else if (d1 <= 0.0f || d2 <= 0.0f)
     {
-        QMessageBox::about(par, "Error", "Pressure1/Pressure2 Needs to be Greater Than 0.");
+        QMessageBox::about(par, "Error", "Pressure Values Need to be Greater Than 0.");
     } else if (DeltaU) {
         QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
     } else if (DeltaH) {
         QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
     } else if (Heat){
-        PressureValue1 = PressureInput1.toDouble();
-        PressureValue2 = PressureInput2.toDouble();
-        work = mole*R*TempAdjust*log(PressureValue1/PressureValue2);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(work) + " J.");
     } else if (DeltaS){
-        PressureValue1 = PressureInput1.toDouble();
-        PressureValue2 = PressureInput2.toDouble();
-        work = mole*R*TempAdjust*log(PressureValue1/PressureValue2);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(work) + " J.");
     } else {
-        PressureValue1 = PressureInput1.toDouble();
-        PressureValue2 = PressureInput2.toDouble();
-        work = -(mole*R*TempAdjust*log(PressureValue1/PressureValue2));
-        QMessageBox::about(par, "Work Done", "The isothermal work done is " + QString::number(work) + " J.");
+        QMessageBox::about(par, "Work Done", "The isothermal work done is " + QString::number(-work) + " J.");
     }
 }
 
@@ -146,30 +144,28 @@ void IsoThermal::CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bo
     double d1 = VolumeInput1.toFloat(&ok1);
     double d2 = VolumeInput2.toFloat(&ok2);
 
+    if (ok1 == true && ok2 == true && d1 > 0.0f && d2 > 0.0f)
+    {
+        VolumeValue1 = PressureInput1.toDouble();
+        VolumeValue2 = PressureInput2.toDouble();
+        work = mole*R*TempAdjust*log(VolumeValue2/VolumeValue1);
+    }
+
     if (ok1 == false || ok2 == false)
     {
         QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (d1 * d2 <= 0.0f)
+    } else if (d1 <= 0.0f || d2 <= 0.0f)
     {
-        QMessageBox::about(par, "Error", "Volume2/Volume1 Needs to be Greater Than 0.");
+        QMessageBox::about(par, "Error", "Volume Values Need to be Greater Than 0.");
     } else if (DeltaU) {
         QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
     } else if (DeltaH) {
         QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
     } else if (Heat){
-        VolumeValue1 = PressureInput1.toDouble();
-        VolumeValue2 = PressureInput2.toDouble();
-        work = mole*R*TempAdjust*log(VolumeValue2/VolumeValue1);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(work) + " J.");
     } else if (DeltaS){
-        VolumeValue1 = PressureInput1.toDouble();
-        VolumeValue2 = PressureInput2.toDouble();
-        work = mole*R*TempAdjust*log(VolumeValue2/VolumeValue1);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(work) + " J.");
     } else {
-        VolumeValue1 = PressureInput1.toDouble();
-        VolumeValue2 = PressureInput2.toDouble();
-        work = -(mole*R*TempAdjust*log(VolumeValue2/VolumeValue1));
-        QMessageBox::about(par, "Work Done", "The isothermal work done is " + QString::number(work) + " J.");
+        QMessageBox::about(par, "Work Done", "The isothermal work done is " + QString::number(-work) + " J.");
     }
 }
