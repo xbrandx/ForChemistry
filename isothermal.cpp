@@ -37,9 +37,25 @@ IsoThermal::IsoThermal(QWidget *par)
     for (int i = 8; i < 10; i++)
         button[i] = new PushButton("ΔS", 250, 210+175*(i-8), par);
     PushButton::connect(button[0], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(par); });
+                        [=](){ CalculateWorkFromPressure(false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(par); });
+                        [=](){ CalculateWorkFromVolume(false, false, false, false, par); });
+    PushButton::connect(button[2], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromPressure(false, false, true, false, par); });
+    PushButton::connect(button[3], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromVolume(false, false, true, false, par); });
+    PushButton::connect(button[4], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromPressure(true, false, false, false, par); });
+    PushButton::connect(button[5], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromVolume(true, false, false, false, par); });
+    PushButton::connect(button[6], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromPressure(false, true, false, false, par); });
+    PushButton::connect(button[7], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromVolume(false, true, false, false, par); });
+    PushButton::connect(button[8], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromPressure(false, false, false, true, par); });
+    PushButton::connect(button[9], &QPushButton::clicked,
+                        [=](){ CalculateWorkFromVolume(false, false, false, true, par); });
 
     combo = new ComboBox(10, 10, 80, 40, par);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
@@ -84,7 +100,7 @@ QString IsoThermal::FormulaName()
     return "Isothermal";
 }
 
-void IsoThermal::CalculateWorkFromPressure(QWidget *par)
+void IsoThermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
     double PressureValue1, PressureValue2, work;
     double R = 0.0821;
@@ -99,6 +115,20 @@ void IsoThermal::CalculateWorkFromPressure(QWidget *par)
     } else if (d1 * d2 <= 0.0f)
     {
         QMessageBox::about(par, "Error", "Pressure1/Pressure2 Needs to be Greater Than 0.");
+    } else if (DeltaU) {
+        QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
+    } else if (DeltaH) {
+        QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
+    } else if (Heat){
+        PressureValue1 = PressureInput1.toDouble();
+        PressureValue2 = PressureInput2.toDouble();
+        work = mole*R*TempAdjust*log(PressureValue1/PressureValue2);
+        QMessageBox::about(par, "Heat", "Heat is " + QString::number(work) + " J.");
+    } else if (DeltaS){
+        PressureValue1 = PressureInput1.toDouble();
+        PressureValue2 = PressureInput2.toDouble();
+        work = mole*R*TempAdjust*log(PressureValue1/PressureValue2);
+        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(work) + " J.");
     } else {
         PressureValue1 = PressureInput1.toDouble();
         PressureValue2 = PressureInput2.toDouble();
@@ -107,7 +137,7 @@ void IsoThermal::CalculateWorkFromPressure(QWidget *par)
     }
 }
 
-void IsoThermal::CalculateWorkFromVolume(QWidget *par)
+void IsoThermal::CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
     double VolumeValue1, VolumeValue2, work;
     double R = 0.0821;
@@ -122,6 +152,20 @@ void IsoThermal::CalculateWorkFromVolume(QWidget *par)
     } else if (d1 * d2 <= 0.0f)
     {
         QMessageBox::about(par, "Error", "Volume2/Volume1 Needs to be Greater Than 0.");
+    } else if (DeltaU) {
+        QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
+    } else if (DeltaH) {
+        QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
+    } else if (Heat){
+        VolumeValue1 = PressureInput1.toDouble();
+        VolumeValue2 = PressureInput2.toDouble();
+        work = mole*R*TempAdjust*log(VolumeValue2/VolumeValue1);
+        QMessageBox::about(par, "Heat", "Heat is " + QString::number(work) + " J.");
+    } else if (DeltaS){
+        VolumeValue1 = PressureInput1.toDouble();
+        VolumeValue2 = PressureInput2.toDouble();
+        work = mole*R*TempAdjust*log(VolumeValue2/VolumeValue1);
+        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(work) + " J.");
     } else {
         VolumeValue1 = PressureInput1.toDouble();
         VolumeValue2 = PressureInput2.toDouble();

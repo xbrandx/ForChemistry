@@ -30,8 +30,8 @@ public:
     ~IsoThermal();
     void Clear();
     QString FormulaName();
-    void CalculateWorkFromPressure(QWidget *par);
-    void CalculateWorkFromVolume(QWidget *par);
+    void CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
+    void CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
 };
 
 #endif // ISOTHERMAL_H
