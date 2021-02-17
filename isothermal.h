@@ -7,15 +7,15 @@
 #include <QMessageBox>
 #include <QDebug>
 //#include <memory>
+#include "formula.h"
 #include "label.h"
 #include "lineedit.h"
 #include "pushbutton.h"
 #include "combobox.h"
 #include "doublespinbox.h"
 #include "math.h"
-#include "formula.h"
 
-class IsoThermal : public Formula
+class Isothermal : public Formula
 {
     Label *label[9];
     LineEdit *line[4];
@@ -26,8 +26,8 @@ class IsoThermal : public Formula
     int mole = 1;
     double temperature = 24;
 public:
-    IsoThermal(QWidget *par);
-    ~IsoThermal();
+    Isothermal(QWidget *par);
+    ~Isothermal();
     void Clear();
     QString FormulaName();
     void CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);

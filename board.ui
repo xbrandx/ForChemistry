@@ -50,8 +50,16 @@
     <property name="title">
      <string>Menu</string>
     </property>
+    <widget class="QMenu" name="menuThermodynamics">
+     <property name="title">
+      <string>Thermodynamics</string>
+     </property>
+     <addaction name="actionIsobaric"/>
+     <addaction name="actionIsochoric"/>
+     <addaction name="actionIsothermal"/>
+    </widget>
     <addaction name="actionIdeal_Gas_Law"/>
-    <addaction name="actionIsoThermal"/>
+    <addaction name="menuThermodynamics"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -68,12 +76,22 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionIsoThermal">
+  <action name="actionIsothermal">
    <property name="text">
     <string>Isothermal</string>
    </property>
    <property name="toolTip">
     <string>Isothermal</string>
+   </property>
+  </action>
+  <action name="actionIsobaric">
+   <property name="text">
+    <string>Isobaric</string>
+   </property>
+  </action>
+  <action name="actionIsochoric">
+   <property name="text">
+    <string>Isochoric</string>
    </property>
   </action>
  </widget>

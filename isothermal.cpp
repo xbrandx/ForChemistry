@@ -1,6 +1,6 @@
 #include "isothermal.h"
 
-IsoThermal::IsoThermal(QWidget *par)
+Isothermal::Isothermal(QWidget *par)
     : Formula(par)
 {
     label[0] = new Label("- Isothermal", 180, 10, 12, 130, 13, par);
@@ -66,12 +66,12 @@ IsoThermal::IsoThermal(QWidget *par)
                       [=](double d){ temperature = d; });
 }
 
-IsoThermal::~IsoThermal()
+Isothermal::~Isothermal()
 {
     Clear();
 }
 
-void IsoThermal::Clear()
+void Isothermal::Clear()
 {
     for (int i = 0; i < 9; i++)
     {
@@ -95,12 +95,12 @@ void IsoThermal::Clear()
     return;
 }
 
-QString IsoThermal::FormulaName()
+QString Isothermal::FormulaName()
 {
     return "Isothermal";
 }
 
-void IsoThermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
+void Isothermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
     double PressureValue1, PressureValue2, work;
     double R = 0.0821;
@@ -135,7 +135,7 @@ void IsoThermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, 
     }
 }
 
-void IsoThermal::CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
+void Isothermal::CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
     double VolumeValue1, VolumeValue2, work;
     double R = 0.0821;

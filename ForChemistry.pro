@@ -20,6 +20,8 @@ SOURCES += \
     doublespinbox.cpp \
     formula.cpp \
     idealgaslaw.cpp \
+    isobaric.cpp \
+    isochoric.cpp \
     isothermal.cpp \
     label.cpp \
     lineedit.cpp \
@@ -33,6 +35,8 @@ HEADERS += \
     doublespinbox.h \
     formula.h \
     idealgaslaw.h \
+    isobaric.h \
+    isochoric.h \
     isothermal.h \
     label.h \
     lineedit.h \

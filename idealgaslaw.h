@@ -7,12 +7,12 @@
 #include <QMessageBox>
 #include <QDebug>
 //#include <memory>
+#include "formula.h"
 #include "label.h"
 #include "lineedit.h"
 #include "pushbutton.h"
 #include "combobox.h"
 #include "doublespinbox.h"
-#include "formula.h"
 
 class IdealGasLaw : public Formula
 {
