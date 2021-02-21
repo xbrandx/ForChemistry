@@ -3,7 +3,7 @@
 Isothermal::Isothermal(QWidget *par)
     : Formula(par)
 {
-    label[0] = new Label("- Isothermal", 180, 10, 12, 130, 13, par);
+    label[0] = new Label("- Isothermal Process", 180, 10, 12, 150, 13, par);
     label[1] = new Label("Mole #: ", 30, 45, 8, par);
     label[2] = new Label("Temperature (C): ", 190, 45, 8, par);
     label[3] = new Label("Enter Pressure 1 (atm): ", 30, 120, 8, 130, par);
@@ -18,13 +18,13 @@ Isothermal::Isothermal(QWidget *par)
     line[2] = new LineEdit(160, 295, par);
     line[3] = new LineEdit(160, 325, par);
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ PressureInput1 = d; });
+                      [=](QString d){ PressureInput[0] = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ PressureInput2 = d; });
+                      [=](QString d){ PressureInput[1] = d; });
     LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ VolumeInput1 = d; });
+                      [=](QString d){ VolumeInput[0] = d; });
     LineEdit::connect(line[3], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ VolumeInput2 = d; });
+                      [=](QString d){ VolumeInput[1] = d; });
 
     for (int i = 0; i < 2; i++)
         button[i] = new PushButton("Work Done (w)", 160, 180+175*i, par);
@@ -37,25 +37,25 @@ Isothermal::Isothermal(QWidget *par)
     for (int i = 8; i < 10; i++)
         button[i] = new PushButton("ΔS", 250, 210+175*(i-8), par);
     PushButton::connect(button[0], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(false, false, false, false, par); });
+                        [=](){ CalculateValueFromPressure(false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(false, false, false, false, par); });
+                        [=](){ CalculateValueFromVolume(false, false, false, false, par); });
     PushButton::connect(button[2], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(false, false, true, false, par); });
+                        [=](){ CalculateValueFromPressure(false, false, true, false, par); });
     PushButton::connect(button[3], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(false, false, true, false, par); });
+                        [=](){ CalculateValueFromVolume(false, false, true, false, par); });
     PushButton::connect(button[4], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(true, false, false, false, par); });
+                        [=](){ CalculateValueFromPressure(true, false, false, false, par); });
     PushButton::connect(button[5], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(true, false, false, false, par); });
+                        [=](){ CalculateValueFromVolume(true, false, false, false, par); });
     PushButton::connect(button[6], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(false, true, false, false, par); });
+                        [=](){ CalculateValueFromPressure(false, true, false, false, par); });
     PushButton::connect(button[7], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(false, true, false, false, par); });
+                        [=](){ CalculateValueFromVolume(false, true, false, false, par); });
     PushButton::connect(button[8], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromPressure(false, false, false, true, par); });
+                        [=](){ CalculateValueFromPressure(false, false, false, true, par); });
     PushButton::connect(button[9], &QPushButton::clicked,
-                        [=](){ CalculateWorkFromVolume(false, false, false, true, par); });
+                        [=](){ CalculateValueFromVolume(false, false, false, true, par); });
 
     combo = new ComboBox(10, 10, 80, 40, par);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
@@ -97,23 +97,23 @@ void Isothermal::Clear()
 
 QString Isothermal::FormulaName()
 {
-    return "Isothermal";
+    return "Isothermal Process";
 }
 
-void Isothermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
+void Isothermal::CalculateValueFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double PressureValue1, PressureValue2, work;
+    double PressureValue[2], work;
     double R = 0.0821;
     double TempAdjust = temperature + 273;
     bool ok1, ok2;
-    double d1 = PressureInput1.toFloat(&ok1);
-    double d2 = PressureInput2.toFloat(&ok2);
+    double d1 = PressureInput[0].toFloat(&ok1);
+    double d2 = PressureInput[1].toFloat(&ok2);
 
     if (ok1 == true && ok2 == true && d1 > 0.0f && d2 > 0.0f)
     {
-        PressureValue1 = PressureInput1.toDouble();
-        PressureValue2 = PressureInput2.toDouble();
-        work = mole*R*TempAdjust*log(PressureValue1/PressureValue2);
+        PressureValue[0] = PressureInput[0].toDouble();
+        PressureValue[1] = PressureInput[1].toDouble();
+        work = mole*R*TempAdjust*log(PressureValue[0]/PressureValue[1]);
     }
 
     if (ok1 == false || ok2 == false)
@@ -135,20 +135,20 @@ void Isothermal::CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, 
     }
 }
 
-void Isothermal::CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
+void Isothermal::CalculateValueFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double VolumeValue1, VolumeValue2, work;
+    double VolumeValue[2], work;
     double R = 0.0821;
     double TempAdjust = temperature + 273;
     bool ok1, ok2;
-    double d1 = VolumeInput1.toFloat(&ok1);
-    double d2 = VolumeInput2.toFloat(&ok2);
+    double d1 = VolumeInput[0].toFloat(&ok1);
+    double d2 = VolumeInput[1].toFloat(&ok2);
 
     if (ok1 == true && ok2 == true && d1 > 0.0f && d2 > 0.0f)
     {
-        VolumeValue1 = PressureInput1.toDouble();
-        VolumeValue2 = PressureInput2.toDouble();
-        work = mole*R*TempAdjust*log(VolumeValue2/VolumeValue1);
+        VolumeValue[0] = VolumeInput[0].toDouble();
+        VolumeValue[1] = VolumeInput[1].toDouble();
+        work = mole*R*TempAdjust*log(VolumeValue[1]/VolumeValue[0]);
     }
 
     if (ok1 == false || ok2 == false)

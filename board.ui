@@ -32,6 +32,9 @@
       <underline>false</underline>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 0);</string>
+    </property>
     <property name="text">
      <string>Chemistry Formula</string>
     </property>

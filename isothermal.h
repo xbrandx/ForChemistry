@@ -22,7 +22,7 @@ class Isothermal : public Formula
     PushButton *button[10];
     ComboBox *combo;
     DoubleSpinBox *spin;
-    QString PressureInput1, PressureInput2, VolumeInput1, VolumeInput2;
+    QString PressureInput[2], VolumeInput[2];
     int mole = 1;
     double temperature = 24;
 public:
@@ -30,8 +30,8 @@ public:
     ~Isothermal();
     void Clear();
     QString FormulaName();
-    void CalculateWorkFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
-    void CalculateWorkFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
+    void CalculateValueFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
+    void CalculateValueFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
 };
 
 #endif // ISOTHERMAL_H
