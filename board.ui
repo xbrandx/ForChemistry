@@ -57,9 +57,9 @@
      <property name="title">
       <string>Thermodynamics</string>
      </property>
-     <addaction name="actionIsobaric"/>
-     <addaction name="actionIsochoric"/>
-     <addaction name="actionIsothermal"/>
+     <addaction name="actionIsobaric_Process"/>
+     <addaction name="actionIsochoric_Process"/>
+     <addaction name="actionIsothermal_Process"/>
     </widget>
     <addaction name="actionIdeal_Gas_Law"/>
     <addaction name="menuThermodynamics"/>
@@ -79,22 +79,22 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionIsothermal">
+  <action name="actionIsothermal_Process">
    <property name="text">
-    <string>Isothermal</string>
+    <string>Isothermal Process</string>
    </property>
    <property name="toolTip">
     <string>Isothermal</string>
    </property>
   </action>
-  <action name="actionIsobaric">
+  <action name="actionIsobaric_Process">
    <property name="text">
-    <string>Isobaric</string>
+    <string>Isobaric Process</string>
    </property>
   </action>
-  <action name="actionIsochoric">
+  <action name="actionIsochoric_Process">
    <property name="text">
-    <string>Isochoric</string>
+    <string>Isochoric Process</string>
    </property>
   </action>
  </widget>

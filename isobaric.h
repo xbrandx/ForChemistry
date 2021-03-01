@@ -14,14 +14,15 @@
 
 class Isobaric : public Formula
 {
-    Label *label[5];
-    LineEdit *line[2];
+    Label *label[9];
+    LineEdit *line[5];
     PushButton *button[5];
     ComboBox *combo;
-    DoubleSpinBox *spin;
-    QString PressureInput, VolumeInput;
+    DoubleSpinBox *spin[2];
+    QString PressureInput, InitVolumeInput, FinalVolumeInput, Cp, Cv;
     int mole = 1;
-    double temperature = 24;
+    double init_temp = 24;
+    double final_temp = 24;
 public:
     Isobaric(QWidget *par);
     ~Isobaric();

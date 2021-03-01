@@ -22,9 +22,9 @@ public:
     ~Board();
 private slots:
     void on_actionIdeal_Gas_Law_triggered();
-    void on_actionIsobaric_triggered();
-    void on_actionIsochoric_triggered();
-    void on_actionIsothermal_triggered();
+    void on_actionIsobaric_Process_triggered();
+    void on_actionIsochoric_Process_triggered();
+    void on_actionIsothermal_Process_triggered();
     void on_actionExit_triggered();
 private:
     Ui::Board *ui;

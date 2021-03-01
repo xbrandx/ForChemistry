@@ -25,15 +25,15 @@ void Board::on_actionIdeal_Gas_Law_triggered()
     setWindowTitle(formula->FormulaName());
 }
 
-void Board::on_actionIsobaric_triggered()
+void Board::on_actionIsobaric_Process_triggered()
 {
     if (formula) formula->Clear();
-    resize(430, 480);
+    resize(430, 380);
     formula = new Isobaric(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }
 
-void Board::on_actionIsochoric_triggered()
+void Board::on_actionIsochoric_Process_triggered()
 {
     if (formula) formula->Clear();
     resize(430, 480);
@@ -41,7 +41,7 @@ void Board::on_actionIsochoric_triggered()
     setWindowTitle(formula->FormulaName());
 }
 
-void Board::on_actionIsothermal_triggered()
+void Board::on_actionIsothermal_Process_triggered()
 {
     if (formula) formula->Clear();
     resize(430, 480);
