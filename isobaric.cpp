@@ -15,6 +15,16 @@ Isobaric::Isobaric(QWidget *par)
 
     for (int i = 0; i < 5; i++)
         line[i] = new LineEdit(160, 110+35*i, par);
+    LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ PressureInput = d; });
+    LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ InitVolumeInput = d; });
+    LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ FinalVolumeInput = d; });
+    LineEdit::connect(line[3], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ CpInput = d; });
+    LineEdit::connect(line[4], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ CvInput = d; });
 
     button[0] = new PushButton("Work Done (w)", 25, 290, par);
     button[1] = new PushButton("Heat (q)", 110, 290, par);
@@ -53,12 +63,12 @@ Isobaric::~Isobaric()
 
 void Isobaric::Clear()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 9; i++)
     {
         delete label[i];
         label[i] = nullptr;
     }
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 5; i++)
     {
         delete line[i];
         line[i] = nullptr;
@@ -85,6 +95,10 @@ QString Isobaric::FormulaName()
 
 void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
+    double PressureValue = PressureInput.toDouble();
+    double work;
+    double InitVolumeValue = InitVolumeInput.toDouble();
+    double FinalVolumeValue = FinalVolumeInput.toDouble();
     if (DeltaU) {
         QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
     } else if (DeltaH) {
@@ -94,6 +108,7 @@ void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, 
     } else if (DeltaS){
         QMessageBox::about(par, "ΔS", "ΔS is 0 J.");
     } else {
-        QMessageBox::about(par, "Work Done", "The work done is 0 J.");
+        work = -PressureValue * (FinalVolumeValue - InitVolumeValue);
+        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }

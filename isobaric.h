@@ -19,7 +19,7 @@ class Isobaric : public Formula
     PushButton *button[5];
     ComboBox *combo;
     DoubleSpinBox *spin[2];
-    QString PressureInput, InitVolumeInput, FinalVolumeInput, Cp, Cv;
+    QString PressureInput, InitVolumeInput, FinalVolumeInput, CpInput, CvInput;
     int mole = 1;
     double init_temp = 24;
     double final_temp = 24;
