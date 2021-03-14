@@ -7,20 +7,21 @@ Isochoric::Isochoric(QWidget *par)
     label[1] = new Label("Mole #: ", 30, 45, 8, par);
     label[2] = new Label("Initial Temperature (C): ", 190, 45, 8, par);
     label[3] = new Label("Final Temperature (C): ", 190, 75, 8, par);
-    label[4] = new Label("Enter Pressure (atm): ", 30, 110, 8, 130, par);
-    label[5] = new Label("Enter Initnal Volume (L): ", 30, 145, 8, par);
-    label[6] = new Label("Enter Final Volume (L): ", 30, 180, 8, par);
-    label[7] = new Label("Enter Cp: ", 30, 215, 8, par);
-    label[8] = new Label("Enter Cv: ", 30, 250, 8, par);
+    label[4] = new Label("Enter Cp: ", 30, 110, 8, par);
+    label[5] = new Label("Enter Cv: ", 30, 145, 8, par);
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
         line[i] = new LineEdit(160, 110+35*i, par);
+    LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ CpInput = d; });
+    LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ CvInput = d; });
 
-    button[0] = new PushButton("Work Done (w)", 25, 290, par);
-    button[1] = new PushButton("Heat (q)", 110, 290, par);
-    button[2] = new PushButton("ΔU", 190, 290, par);
-    button[3] = new PushButton("ΔH", 270, 290, par);
-    button[4] = new PushButton("ΔS", 350, 290, par);
+    button[0] = new PushButton("Work Done (w)", 25, 190, par);
+    button[1] = new PushButton("Heat (q)", 110, 190, par);
+    button[2] = new PushButton("ΔU", 190, 190, par);
+    button[3] = new PushButton("ΔH", 270, 190, par);
+    button[4] = new PushButton("ΔS", 350, 190, par);
     PushButton::connect(button[0], &QPushButton::clicked,
                         [=](){ CalculateValue(false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
@@ -38,7 +39,7 @@ Isochoric::Isochoric(QWidget *par)
 
     for (int i = 0; i < 2; i++)
     {
-        spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40+30*i, " C", par);
+        spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24+2*i, 310, 40+30*i, " C", par);
     }
     DoubleSpinBox::connect(spin[0], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
                       [=](double d){ init_temp = d; });
@@ -53,12 +54,12 @@ Isochoric::~Isochoric()
 
 void Isochoric::Clear()
 {
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 6; i++)
     {
         delete label[i];
         label[i] = nullptr;
     }
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         delete line[i];
         line[i] = nullptr;
@@ -85,14 +86,21 @@ QString Isochoric::FormulaName()
 
 void Isochoric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
+    double dU, dH, heat, dS;
+    double CpValue = CpInput.toDouble();
+    double CvValue = CvInput.toDouble();
     if (DeltaU) {
-        QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
+        dU = 0;
+        QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
-        QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
+        dH = 0;
+        QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        QMessageBox::about(par, "Heat", "Heat is 0 J.");
+        heat = 0;
+        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        QMessageBox::about(par, "ΔS", "ΔS is 0 J.");
+        dS = 0;
+        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
         QMessageBox::about(par, "Work Done", "The work done is 0 J.");
     }

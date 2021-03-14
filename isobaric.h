@@ -11,6 +11,7 @@
 #include "pushbutton.h"
 #include "combobox.h"
 #include "doublespinbox.h"
+#include "math.h"
 
 class Isobaric : public Formula
 {
@@ -22,7 +23,7 @@ class Isobaric : public Formula
     QString PressureInput, InitVolumeInput, FinalVolumeInput, CpInput, CvInput;
     int mole = 1;
     double init_temp = 24;
-    double final_temp = 24;
+    double final_temp = 26;
 public:
     Isobaric(QWidget *par);
     ~Isobaric();

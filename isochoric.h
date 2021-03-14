@@ -11,18 +11,19 @@
 #include "pushbutton.h"
 #include "combobox.h"
 #include "doublespinbox.h"
+#include "math.h"
 
 class Isochoric : public Formula
 {
-    Label *label[9];
-    LineEdit *line[5];
+    Label *label[6];
+    LineEdit *line[2];
     PushButton *button[5];
     ComboBox *combo;
     DoubleSpinBox *spin[2];
-    QString PressureInput, InitVolumeInput, FinalVolumeInput, Cp, Cv;
+    QString CpInput, CvInput;
     int mole = 1;
     double init_temp = 24;
-    double final_temp = 24;
+    double final_temp = 26;
 public:
     Isochoric(QWidget *par);
     ~Isochoric();

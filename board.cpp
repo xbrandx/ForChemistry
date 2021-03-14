@@ -36,7 +36,7 @@ void Board::on_actionIsobaric_Process_triggered()
 void Board::on_actionIsochoric_Process_triggered()
 {
     if (formula) formula->Clear();
-    resize(430,380);
+    resize(430,280);
     formula = new Isochoric(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }

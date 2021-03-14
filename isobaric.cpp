@@ -48,7 +48,7 @@ Isobaric::Isobaric(QWidget *par)
 
     for (int i = 0; i < 2; i++)
     {
-        spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40+30*i, " C", par);
+        spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24+2*i, 310, 40+30*i, " C", par);
     }
     DoubleSpinBox::connect(spin[0], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
                       [=](double d){ init_temp = d; });
@@ -95,18 +95,25 @@ QString Isobaric::FormulaName()
 
 void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
+    double dU, dH, heat, dS, work;
+    double R = 0.0821;
     double PressureValue = PressureInput.toDouble();
-    double work;
     double InitVolumeValue = InitVolumeInput.toDouble();
     double FinalVolumeValue = FinalVolumeInput.toDouble();
+    double CpValue = CpInput.toDouble();
+    double CvValue = CvInput.toDouble();
     if (DeltaU) {
-        QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
+        dU = 0;
+        QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
-        QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
+        dH = 0;
+        QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        QMessageBox::about(par, "Heat", "Heat is 0 J.");
+        heat = 0;
+        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        QMessageBox::about(par, "ΔS", "ΔS is 0 J.");
+        dS = 0;
+        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
         work = -PressureValue * (FinalVolumeValue - InitVolumeValue);
         QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
