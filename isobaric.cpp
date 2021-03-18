@@ -96,23 +96,23 @@ QString Isobaric::FormulaName()
 void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
     double dU, dH, heat, dS, work;
-    double R = 0.0821;
+    double R = 8.314;
     double PressureValue = PressureInput.toDouble();
     double InitVolumeValue = InitVolumeInput.toDouble();
     double FinalVolumeValue = FinalVolumeInput.toDouble();
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     if (DeltaU) {
-        dU = 0;
+        dU = CvValue*(final_temp-init_temp);
         QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
-        dH = 0;
+        dH = CpValue*(final_temp-init_temp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        heat = 0;
+        heat = CpValue*(final_temp-init_temp);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        dS = 0;
+        dS = CpValue*log((final_temp+273)/(init_temp+273))+mole*R*log(FinalVolumeValue/InitVolumeValue);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
         work = -PressureValue * (FinalVolumeValue - InitVolumeValue);

@@ -90,16 +90,16 @@ void Isochoric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS,
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     if (DeltaU) {
-        dU = 0;
+        dU = CvValue*(final_temp-init_temp);
         QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
-        dH = 0;
+        dH = CpValue*(final_temp-init_temp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        heat = 0;
+        heat = CvValue*(final_temp-init_temp);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        dS = 0;
+        dS = CpValue*log((final_temp+273)/(init_temp+273));
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
         QMessageBox::about(par, "Work Done", "The work done is 0 J.");
