@@ -18,7 +18,7 @@ Isobaric::Isobaric(QWidget *par)
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ PressureInput = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ InitVolumeInput = d; });
+                      [=](QString d){ InitialVolumeInput = d; });
     LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ FinalVolumeInput = d; });
     LineEdit::connect(line[3], QOverload<const QString &>::of(&QLineEdit::textChanged),
@@ -51,9 +51,9 @@ Isobaric::Isobaric(QWidget *par)
         spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24+2*i, 310, 40+30*i, " C", par);
     }
     DoubleSpinBox::connect(spin[0], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ init_temp = d; });
+                      [=](double d){ InitialTemp = d; });
     DoubleSpinBox::connect(spin[1], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ final_temp = d; });
+                      [=](double d){ FinalTemp = d; });
 }
 
 Isobaric::~Isobaric()
@@ -98,24 +98,24 @@ void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, 
     double dU, dH, heat, dS, work;
     double R = 8.314;
     double PressureValue = PressureInput.toDouble();
-    double InitVolumeValue = InitVolumeInput.toDouble();
+    double InitialVolumeValue = InitialVolumeInput.toDouble();
     double FinalVolumeValue = FinalVolumeInput.toDouble();
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     if (DeltaU) {
-        dU = CvValue*(final_temp-init_temp);
+        dU = CvValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
-        dH = CpValue*(final_temp-init_temp);
+        dH = CpValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        heat = CpValue*(final_temp-init_temp);
+        heat = CpValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        dS = CpValue*log((final_temp+273)/(init_temp+273))+mole*R*log(FinalVolumeValue/InitVolumeValue);
+        dS = CpValue*log((FinalTemp+273)/(InitialTemp+273))+mole*R*log(FinalVolumeValue/InitialVolumeValue);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
-        work = -PressureValue * (FinalVolumeValue - InitVolumeValue);
+        work = -PressureValue * (FinalVolumeValue - InitialVolumeValue);
         QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }

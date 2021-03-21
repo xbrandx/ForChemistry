@@ -22,8 +22,8 @@ class Isochoric : public Formula
     DoubleSpinBox *spin[2];
     QString CpInput, CvInput;
     int mole = 1;
-    double init_temp = 24;
-    double final_temp = 26;
+    double InitialTemp = 24;
+    double FinalTemp = 26;
 public:
     Isochoric(QWidget *par);
     ~Isochoric();

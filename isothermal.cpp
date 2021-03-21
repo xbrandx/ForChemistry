@@ -6,36 +6,36 @@ Isothermal::Isothermal(QWidget *par)
     label[0] = new Label("- Isothermal Process", 180, 10, 12, 150, 13, par);
     label[1] = new Label("Mole #: ", 30, 45, 8, par);
     label[2] = new Label("Temperature (C): ", 190, 45, 8, par);
-    label[3] = new Label("Enter Pressure 1 (atm): ", 30, 120, 8, 130, par);
-    label[4] = new Label("Enter Pressure 2 (atm): ", 30, 150, 8, 130, par);
-    label[5] = new Label("Enter Volume 1 (L): ", 30, 295, 8, par);
-    label[6] = new Label("Enter Volume 2 (L): ", 30, 325, 8, par);
+    label[3] = new Label("Enter Initial Pressure (atm): ", 30, 120, 8, 140, par);
+    label[4] = new Label("Enter Final Pressure (atm): ", 30, 150, 8, 140, par);
+    label[5] = new Label("Enter Intial Volume (L): ", 30, 265, 8, par);
+    label[6] = new Label("Enter Final Volume (L): ", 30, 295, 8, par);
     label[7] = new Label("Method 1 (Using Pressure Values):", 30, 85, 10, 230, 20, par);
-    label[8] = new Label("Method 2 (Using Volume Values):", 30, 260, 10, 230, 20, par);
+    label[8] = new Label("Method 2 (Using Volume Values):", 30, 230, 10, 230, 20, par);
 
-    line[0] = new LineEdit(160, 120, par);
-    line[1] = new LineEdit(160, 150, par);
-    line[2] = new LineEdit(160, 295, par);
-    line[3] = new LineEdit(160, 325, par);
+    line[0] = new LineEdit(170, 120, par);
+    line[1] = new LineEdit(170, 150, par);
+    line[2] = new LineEdit(170, 265, par);
+    line[3] = new LineEdit(170, 295, par);
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ PressureInput[0] = d; });
+                      [=](QString d){ InitialPressureInput = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ PressureInput[1] = d; });
+                      [=](QString d){ FinalPressureInput = d; });
     LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ VolumeInput[0] = d; });
+                      [=](QString d){ InitialVolumeInput = d; });
     LineEdit::connect(line[3], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ VolumeInput[1] = d; });
+                      [=](QString d){ FinalVolumeInput = d; });
 
     for (int i = 0; i < 2; i++)
-        button[i] = new PushButton("Work Done (w)", 160, 180+175*i, par);
+        button[i] = new PushButton("Work Done (w)", 28, 180+145*i, par);
     for (int i = 2; i < 4; i++)
-        button[i] = new PushButton("Heat (q)", 160, 210+175*(i-2), par);
+        button[i] = new PushButton("Heat (q)", 110, 180+145*(i-2), par);
     for (int i = 4; i < 6; i++)
-        button[i] = new PushButton("ΔU", 250, 180+175*(i-4), par);
+        button[i] = new PushButton("ΔU", 190, 180+145*(i-4), par);
     for (int i = 6; i < 8; i++)
-        button[i] = new PushButton("ΔH", 340, 180+175*(i-6), par);
+        button[i] = new PushButton("ΔH", 270, 180+145*(i-6), par);
     for (int i = 8; i < 10; i++)
-        button[i] = new PushButton("ΔS", 250, 210+175*(i-8), par);
+        button[i] = new PushButton("ΔS", 350, 180+145*(i-8), par);
     PushButton::connect(button[0], &QPushButton::clicked,
                         [=](){ CalculateValueFromPressure(false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
@@ -63,7 +63,7 @@ Isothermal::Isothermal(QWidget *par)
 
     spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", par);
     DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ temperature = d; });
+                      [=](double d){ Temp = d; });
 }
 
 Isothermal::~Isothermal()
@@ -102,24 +102,25 @@ QString Isothermal::FormulaName()
 
 void Isothermal::CalculateValueFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double PressureValue[2], work;
+    double InitialPressureValue, FinalPressureValue, work;
     double R = 0.0821;
-    double TempAdjust = temperature + 273;
-    bool ok1, ok2;
-    double d1 = PressureInput[0].toFloat(&ok1);
-    double d2 = PressureInput[1].toFloat(&ok2);
+    bool InitialPressureInputTest, FinalPressureInputTest;
+    double InitialPressureInputf = InitialPressureInput.toFloat(&InitialPressureInputTest);
+    double FinalPressureInputf = FinalPressureInput.toFloat(&FinalPressureInputTest);
 
-    if (ok1 == true && ok2 == true && d1 > 0.0f && d2 > 0.0f)
+    if (InitialPressureInputTest == true && FinalPressureInputTest == true
+            && InitialPressureInputf > 0.0f
+            && FinalPressureInputf > 0.0f)
     {
-        PressureValue[0] = PressureInput[0].toDouble();
-        PressureValue[1] = PressureInput[1].toDouble();
-        work = mole*R*TempAdjust*log(PressureValue[0]/PressureValue[1]);
+        InitialPressureValue = InitialPressureInput.toDouble();
+        FinalPressureValue = FinalPressureInput.toDouble();
+        work = mole*R*(Temp+273)*log(InitialPressureValue/FinalPressureValue);
     }
 
-    if (ok1 == false || ok2 == false)
+    if (InitialPressureInputTest == false || FinalPressureInputTest == false)
     {
         QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (d1 <= 0.0f || d2 <= 0.0f)
+    } else if (InitialPressureInputf <= 0.0f || FinalPressureInputf <= 0.0f)
     {
         QMessageBox::about(par, "Error", "Pressure Values Need to be Greater Than 0.");
     } else if (DeltaU) {
@@ -137,24 +138,25 @@ void Isothermal::CalculateValueFromPressure(bool DeltaU, bool DeltaH, bool Heat,
 
 void Isothermal::CalculateValueFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double VolumeValue[2], work;
+    double InitialVolumeValue, FinalVolumeValue, work;
     double R = 0.0821;
-    double TempAdjust = temperature + 273;
-    bool ok1, ok2;
-    double d1 = VolumeInput[0].toFloat(&ok1);
-    double d2 = VolumeInput[1].toFloat(&ok2);
+    bool InitialVolumeInputTest, FinalVolumeInputTest;
+    double InitialVolumeInputf = InitialVolumeInput.toFloat(&InitialVolumeInputTest);
+    double FinalVolumeInputf = FinalVolumeInput.toFloat(&FinalVolumeInputTest);
 
-    if (ok1 == true && ok2 == true && d1 > 0.0f && d2 > 0.0f)
+    if (InitialVolumeInputTest == true && FinalVolumeInputTest == true
+            && InitialVolumeInputf > 0.0f
+            && FinalVolumeInputf > 0.0f)
     {
-        VolumeValue[0] = VolumeInput[0].toDouble();
-        VolumeValue[1] = VolumeInput[1].toDouble();
-        work = mole*R*TempAdjust*log(VolumeValue[1]/VolumeValue[0]);
+        InitialVolumeValue = InitialVolumeInput.toDouble();
+        FinalVolumeValue = FinalVolumeInput.toDouble();
+        work = mole*R*(Temp+273)*log(FinalVolumeValue/InitialVolumeValue);
     }
 
-    if (ok1 == false || ok2 == false)
+    if (InitialVolumeInputTest == false || FinalVolumeInputTest == false)
     {
         QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (d1 <= 0.0f || d2 <= 0.0f)
+    } else if (InitialVolumeInputf <= 0.0f || FinalVolumeInputf <= 0.0f)
     {
         QMessageBox::about(par, "Error", "Volume Values Need to be Greater Than 0.");
     } else if (DeltaU) {

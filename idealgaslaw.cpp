@@ -29,7 +29,7 @@ IdealGasLaw::IdealGasLaw(QWidget *par)
 
     spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", par);
     DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ temperature = d; });
+                      [=](double d){ Temp = d; });
 }
 
 IdealGasLaw::~IdealGasLaw()
@@ -68,32 +68,26 @@ QString IdealGasLaw::FormulaName()
 
 void IdealGasLaw::CalculateVolume(QWidget *par)
 {
-    double PressureValue, VolumeValue;
-    double R = 0.0821;
-    double TempAdjust = temperature + 273;
-
     if (PressureInput.toFloat() <= 0.0f)
     {
         QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
     } else {
-        PressureValue = PressureInput.toDouble();
-        VolumeValue = (mole*R*TempAdjust)/PressureValue;
+        double R = 0.0821;
+        double PressureValue = PressureInput.toDouble();
+        double VolumeValue = (mole*R*(Temp+273))/PressureValue;
         QMessageBox::about(par, "Volume Value", "The volume is " + QString::number(VolumeValue) + " L.");
     }
 }
 
 void IdealGasLaw::CalculatePressure(QWidget *par)
 {
-    double PressureValue, VolumeValue;
-    double R = 0.0821;
-    double TempAdjust = temperature + 273;
-
     if (VolumeInput.toFloat() <= 0.0f)
     {
         QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
     } else {
-        VolumeValue = VolumeInput.toDouble();
-        PressureValue = (mole*R*TempAdjust)/VolumeValue;
+        double R = 0.0821;
+        double VolumeValue = VolumeInput.toDouble();
+        double PressureValue = (mole*R*(Temp+273))/VolumeValue;
         QMessageBox::about(par, "Pressure Value", "The pressure is " + QString::number(PressureValue) + " atm.");
     }
 }

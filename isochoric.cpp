@@ -42,9 +42,9 @@ Isochoric::Isochoric(QWidget *par)
         spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24+2*i, 310, 40+30*i, " C", par);
     }
     DoubleSpinBox::connect(spin[0], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ init_temp = d; });
+                      [=](double d){ InitialTemp = d; });
     DoubleSpinBox::connect(spin[1], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ final_temp = d; });
+                      [=](double d){ FinalTemp = d; });
 }
 
 Isochoric::~Isochoric()
@@ -90,16 +90,16 @@ void Isochoric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS,
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     if (DeltaU) {
-        dU = CvValue*(final_temp-init_temp);
+        dU = CvValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
-        dH = CpValue*(final_temp-init_temp);
+        dH = CpValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        heat = CvValue*(final_temp-init_temp);
+        heat = CvValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        dS = CpValue*log((final_temp+273)/(init_temp+273));
+        dS = CpValue*log((FinalTemp+273)/(InitialTemp+273));
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
         QMessageBox::about(par, "Work Done", "The work done is 0 J.");

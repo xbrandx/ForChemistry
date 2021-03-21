@@ -20,10 +20,10 @@ class Isobaric : public Formula
     PushButton *button[5];
     ComboBox *combo;
     DoubleSpinBox *spin[2];
-    QString PressureInput, InitVolumeInput, FinalVolumeInput, CpInput, CvInput;
+    QString PressureInput, InitialVolumeInput, FinalVolumeInput, CpInput, CvInput;
     int mole = 1;
-    double init_temp = 24;
-    double final_temp = 26;
+    double InitialTemp = 24;
+    double FinalTemp = 26;
 public:
     Isobaric(QWidget *par);
     ~Isobaric();

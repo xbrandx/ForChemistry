@@ -6,7 +6,6 @@
 #include <QString>
 #include <QMessageBox>
 #include <QDebug>
-//#include <memory>
 #include "formula.h"
 #include "label.h"
 #include "lineedit.h"
@@ -23,7 +22,7 @@ class IdealGasLaw : public Formula
     DoubleSpinBox *spin;
     QString PressureInput, VolumeInput;
     int mole = 1;
-    double temperature = 24;
+    double Temp = 24;
 public:
     IdealGasLaw(QWidget *par);
     ~IdealGasLaw();

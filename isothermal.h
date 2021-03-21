@@ -22,9 +22,9 @@ class Isothermal : public Formula
     PushButton *button[10];
     ComboBox *combo;
     DoubleSpinBox *spin;
-    QString PressureInput[2], VolumeInput[2];
+    QString InitialPressureInput, FinalPressureInput, InitialVolumeInput, FinalVolumeInput;
     int mole = 1;
-    double temperature = 24;
+    double Temp = 24;
 public:
     Isothermal(QWidget *par);
     ~Isothermal();
