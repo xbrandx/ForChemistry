@@ -16,6 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adiabatic.cpp \
+    adiabatic_irrev.cpp \
     combobox.cpp \
     doublespinbox.cpp \
     formula.cpp \
@@ -23,6 +25,7 @@ SOURCES += \
     isobaric.cpp \
     isochoric.cpp \
     isothermal.cpp \
+    isothermal_irrev.cpp \
     label.cpp \
     lineedit.cpp \
     main.cpp \
@@ -30,6 +33,8 @@ SOURCES += \
     pushbutton.cpp \
 
 HEADERS += \
+    adiabatic.h \
+    adiabatic_irrev.h \
     board.h \
     combobox.h \
     doublespinbox.h \
@@ -38,6 +43,7 @@ HEADERS += \
     isobaric.h \
     isochoric.h \
     isothermal.h \
+    isothermal_irrev.h \
     label.h \
     lineedit.h \
     pushbutton.h \

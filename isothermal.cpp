@@ -3,7 +3,7 @@
 Isothermal::Isothermal(QWidget *par)
     : Formula(par)
 {
-    label[0] = new Label("- Isothermal Process", 180, 10, 12, 150, 13, par);
+    label[0] = new Label("- Isothermal Process (Reversible)", 180, 10, 12, 250, 13, par);
     label[1] = new Label("Mole #: ", 30, 45, 8, par);
     label[2] = new Label("Temperature (C): ", 190, 45, 8, par);
     label[3] = new Label("Enter Initial Pressure (atm): ", 30, 120, 8, 140, par);
@@ -97,7 +97,7 @@ void Isothermal::Clear()
 
 QString Isothermal::FormulaName()
 {
-    return "Isothermal Process";
+    return "Isothermal Process (Reversible)";
 }
 
 void Isothermal::CalculateValueFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)

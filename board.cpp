@@ -1,6 +1,5 @@
 #include "board.h"
 #include "ui_board.h"
-#include <QDebug>
 
 Formula *formula;
 
@@ -25,6 +24,22 @@ void Board::on_actionIdeal_Gas_Law_triggered()
     setWindowTitle(formula->FormulaName());
 }
 
+void Board::on_actionAdiabatic_Reversible_triggered()
+{
+    if (formula) formula->Clear();
+    resize(450,380);
+    formula = new Adiabatic(ui->centralWidget);
+    setWindowTitle(formula->FormulaName());
+}
+
+void Board::on_actionAdiabatic_Irreversible_triggered()
+{
+    if (formula) formula->Clear();
+    resize(450,380);
+    formula = new Adiabatic_Irrev(ui->centralWidget);
+    setWindowTitle(formula->FormulaName());
+}
+
 void Board::on_actionIsobaric_Process_triggered()
 {
     if (formula) formula->Clear();
@@ -46,6 +61,14 @@ void Board::on_actionIsothermal_Process_triggered()
     if (formula) formula->Clear();
     resize(450,420);
     formula = new Isothermal(ui->centralWidget);
+    setWindowTitle(formula->FormulaName());
+}
+
+void Board::on_actionIsothermal_Process_Irreversible_triggered()
+{
+    if (formula) formula->Clear();
+    resize(450,380);
+    formula = new Isothermal_Irrev(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }
 

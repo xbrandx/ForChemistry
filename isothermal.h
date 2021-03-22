@@ -6,7 +6,6 @@
 #include <QString>
 #include <QMessageBox>
 #include <QDebug>
-//#include <memory>
 #include "formula.h"
 #include "label.h"
 #include "lineedit.h"

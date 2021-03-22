@@ -57,9 +57,12 @@
      <property name="title">
       <string>Thermodynamics</string>
      </property>
+     <addaction name="actionAdiabatic_Reversible"/>
+     <addaction name="actionAdiabatic_Irreversible"/>
      <addaction name="actionIsobaric_Process"/>
      <addaction name="actionIsochoric_Process"/>
      <addaction name="actionIsothermal_Process"/>
+     <addaction name="actionIsothermal_Process_Irreversible"/>
     </widget>
     <addaction name="actionIdeal_Gas_Law"/>
     <addaction name="menuThermodynamics"/>
@@ -81,7 +84,7 @@
   </action>
   <action name="actionIsothermal_Process">
    <property name="text">
-    <string>Isothermal Process</string>
+    <string>Isothermal Process (Reversible)</string>
    </property>
    <property name="toolTip">
     <string>Isothermal</string>
@@ -95,6 +98,21 @@
   <action name="actionIsochoric_Process">
    <property name="text">
     <string>Isochoric Process</string>
+   </property>
+  </action>
+  <action name="actionIsothermal_Process_Irreversible">
+   <property name="text">
+    <string>Isothermal Process (Irreversible)</string>
+   </property>
+  </action>
+  <action name="actionAdiabatic_Reversible">
+   <property name="text">
+    <string>Adiabatic (Reversible)</string>
+   </property>
+  </action>
+  <action name="actionAdiabatic_Irreversible">
+   <property name="text">
+    <string>Adiabatic (Irreversible)</string>
    </property>
   </action>
  </widget>
