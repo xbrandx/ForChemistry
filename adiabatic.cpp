@@ -86,8 +86,7 @@ QString Adiabatic::FormulaName()
 
 void Adiabatic::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double dU, dH, heat, dS, work;
-//    double R = 8.314;
+    double dU, dH, work;
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     if (DeltaU) {
@@ -97,13 +96,11 @@ void Adiabatic::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS,
         dH = CpValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        heat = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
+        QMessageBox::about(par, "Heat", "Heat is 0 J.");
     } else if (DeltaS){
-        dS = CpValue*log((FinalTemp+273)/(InitialTemp+273));
-        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
+        QMessageBox::about(par, "ΔS", "ΔS is 0 J.");
     } else {
-        work = 0;
+        work = CvValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }

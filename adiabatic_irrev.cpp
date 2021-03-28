@@ -7,21 +7,27 @@ Adiabatic_Irrev::Adiabatic_Irrev(QWidget *par)
     label[1] = new Label("Mole #: ", 30, 45, 8, par);
     label[2] = new Label("Initial Temperature (C): ", 190, 45, 8, par);
     label[3] = new Label("Final Temperature (C): ", 190, 75, 8, par);
-    label[4] = new Label("Enter Cp: ", 30, 110, 8, par);
-    label[5] = new Label("Enter Cv: ", 30, 145, 8, par);
+    label[4] = new Label("Enter Initnal Volume (L): ", 30, 110, 8, par);
+    label[5] = new Label("Enter Final Volume (L): ", 30, 145, 8, par);
+    label[6] = new Label("Enter Cp: ", 30, 180, 8, par);
+    label[7] = new Label("Enter Cv: ", 30, 215, 8, par);
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 4; i++)
         line[i] = new LineEdit(160, 110+35*i, par);
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ CpInput = d; });
+                      [=](QString d){ InitialVolumeInput = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ FinalVolumeInput = d; });
+    LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ CpInput = d; });
+    LineEdit::connect(line[3], QOverload<const QString &>::of(&QLineEdit::textChanged),
                       [=](QString d){ CvInput = d; });
 
-    button[0] = new PushButton("Work Done (w)", 25, 190, par);
-    button[1] = new PushButton("Heat (q)", 110, 190, par);
-    button[2] = new PushButton("ΔU", 190, 190, par);
-    button[3] = new PushButton("ΔH", 270, 190, par);
-    button[4] = new PushButton("ΔS", 350, 190, par);
+    button[0] = new PushButton("Work Done (w)", 25, 260, par);
+    button[1] = new PushButton("Heat (q)", 110, 260, par);
+    button[2] = new PushButton("ΔU", 190, 260, par);
+    button[3] = new PushButton("ΔH", 270, 260, par);
+    button[4] = new PushButton("ΔS", 350, 260, par);
     PushButton::connect(button[0], &QPushButton::clicked,
                         [=](){ CalculateValue(false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
@@ -54,12 +60,12 @@ Adiabatic_Irrev::~Adiabatic_Irrev()
 
 void Adiabatic_Irrev::Clear()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 8; i++)
     {
         delete label[i];
         label[i] = nullptr;
     }
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 4; i++)
     {
         delete line[i];
         line[i] = nullptr;
@@ -86,8 +92,10 @@ QString Adiabatic_Irrev::FormulaName()
 
 void Adiabatic_Irrev::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double dU, dH, heat, dS, work;
-//    double R = 8.314;
+    double dU, dH, dS, work;
+    double R = 8.314;
+    double InitialVolumeValue = InitialVolumeInput.toDouble();
+    double FinalVolumeValue = FinalVolumeInput.toDouble();
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     if (DeltaU) {
@@ -97,13 +105,12 @@ void Adiabatic_Irrev::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool D
         dH = CpValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
     } else if (Heat){
-        heat = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
+        QMessageBox::about(par, "Heat", "Heat is 0 J.");
     } else if (DeltaS){
-        dS = CpValue*log((FinalTemp+273)/(InitialTemp+273));
+        dS = mole*R*log(FinalVolumeValue/InitialVolumeValue)+CvValue*log((FinalTemp+273)/(InitialTemp+273));
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
-        work = 0;
+        work = CvValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }

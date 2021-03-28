@@ -27,7 +27,7 @@ void Board::on_actionIdeal_Gas_Law_triggered()
 void Board::on_actionAdiabatic_Reversible_triggered()
 {
     if (formula) formula->Clear();
-    resize(450,380);
+    resize(450,280);
     formula = new Adiabatic(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }
@@ -35,7 +35,7 @@ void Board::on_actionAdiabatic_Reversible_triggered()
 void Board::on_actionAdiabatic_Irreversible_triggered()
 {
     if (formula) formula->Clear();
-    resize(450,380);
+    resize(450,350);
     formula = new Adiabatic_Irrev(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }
@@ -67,7 +67,7 @@ void Board::on_actionIsothermal_Process_triggered()
 void Board::on_actionIsothermal_Process_Irreversible_triggered()
 {
     if (formula) formula->Clear();
-    resize(450,380);
+    resize(450,280);
     formula = new Isothermal_Irrev(ui->centralWidget);
     setWindowTitle(formula->FormulaName());
 }

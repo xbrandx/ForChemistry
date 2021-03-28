@@ -16,12 +16,12 @@
 
 class Adiabatic_Irrev : public Formula
 {
-    Label *label[6];
-    LineEdit *line[2];
+    Label *label[8];
+    LineEdit *line[4];
     PushButton *button[5];
     ComboBox *combo;
     DoubleSpinBox *spin[2];
-    QString CpInput, CvInput;
+    QString InitialVolumeInput, FinalVolumeInput, CpInput, CvInput;
     int mole = 1;
     double InitialTemp = 24;
     double FinalTemp = 26;

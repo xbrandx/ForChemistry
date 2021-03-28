@@ -5,17 +5,19 @@ Isothermal_Irrev::Isothermal_Irrev(QWidget *par)
 {
     label[0] = new Label("- Isothermal Process (Irreversible)", 180, 10, 12, 250, 13, par);
     label[1] = new Label("Mole #: ", 30, 45, 8, par);
-    label[2] = new Label("Initial Temperature (C): ", 190, 45, 8, par);
-    label[3] = new Label("Final Temperature (C): ", 190, 75, 8, par);
-    label[4] = new Label("Enter Cp: ", 30, 110, 8, par);
-    label[5] = new Label("Enter Cv: ", 30, 145, 8, par);
+    label[2] = new Label("Temperature (C): ", 190, 45, 8, par);
+    label[3] = new Label("Enter Pressure (atm): ", 30, 75, 8, 130, par);
+    label[4] = new Label("Enter Initnal Volume (L): ", 30, 110, 8, par);
+    label[5] = new Label("Enter Final Volume (L): ", 30, 145, 8, par);
 
-    for (int i = 0; i < 2; i++)
-        line[i] = new LineEdit(160, 110+35*i, par);
+    for (int i = 0; i < 3; i++)
+        line[i] = new LineEdit(160, 75+35*i, par);
     LineEdit::connect(line[0], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ CpInput = d; });
+                      [=](QString d){ PressureInput = d; });
     LineEdit::connect(line[1], QOverload<const QString &>::of(&QLineEdit::textChanged),
-                      [=](QString d){ CvInput = d; });
+                      [=](QString d){ InitialVolumeInput = d; });
+    LineEdit::connect(line[2], QOverload<const QString &>::of(&QLineEdit::textChanged),
+                      [=](QString d){ FinalVolumeInput = d; });
 
     button[0] = new PushButton("Work Done (w)", 25, 190, par);
     button[1] = new PushButton("Heat (q)", 110, 190, par);
@@ -37,14 +39,9 @@ Isothermal_Irrev::Isothermal_Irrev(QWidget *par)
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
                       [=](int index){ mole = index + 1; });
 
-    for (int i = 0; i < 2; i++)
-    {
-        spin[i] = new DoubleSpinBox(2, -273, 1000, 0.5, 24+2*i, 310, 40+30*i, " C", par);
-    }
-    DoubleSpinBox::connect(spin[0], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ InitialTemp = d; });
-    DoubleSpinBox::connect(spin[1], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-                      [=](double d){ FinalTemp = d; });
+    spin = new DoubleSpinBox(2, -273, 1000, 0.5, 24, 310, 40, " C", par);
+    DoubleSpinBox::connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+                      [=](double d){ Temperature = d; });
 }
 
 Isothermal_Irrev::~Isothermal_Irrev()
@@ -59,7 +56,7 @@ void Isothermal_Irrev::Clear()
         delete label[i];
         label[i] = nullptr;
     }
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
         delete line[i];
         line[i] = nullptr;
@@ -71,11 +68,8 @@ void Isothermal_Irrev::Clear()
     }
     delete combo;
     combo = nullptr;
-    for (int i = 0; i < 2; i++)
-    {
-        delete spin[i];
-        spin[i] = nullptr;
-    }
+    delete spin;
+    spin = nullptr;
     return;
 }
 
@@ -86,24 +80,23 @@ QString Isothermal_Irrev::FormulaName()
 
 void Isothermal_Irrev::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
 {
-    double dU, dH, heat, dS, work;
-//    double R = 8.314;
-    double CpValue = CpInput.toDouble();
-    double CvValue = CvInput.toDouble();
+    double heat, dS, work;
+    double R = 8.314;
+    double PressureValue = PressureInput.toDouble();
+    double InitialVolumeValue = InitialVolumeInput.toDouble();
+    double FinalVolumeValue = FinalVolumeInput.toDouble();
     if (DeltaU) {
-        dU = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
+        QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
     } else if (DeltaH) {
-        dH = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
+        QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
     } else if (Heat){
-        heat = CpValue*(FinalTemp-InitialTemp);
+        heat = PressureValue*(FinalVolumeValue-InitialVolumeValue);
         QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
     } else if (DeltaS){
-        dS = CpValue*log((FinalTemp+273)/(InitialTemp+273));
+        dS = mole*R*log(FinalVolumeValue/InitialVolumeValue);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
     } else {
-        work = 0;
+        work = -PressureValue*(FinalVolumeValue-InitialVolumeValue);
         QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }

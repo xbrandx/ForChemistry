@@ -17,14 +17,13 @@
 class Isothermal_Irrev : public Formula
 {
     Label *label[6];
-    LineEdit *line[2];
+    LineEdit *line[3];
     PushButton *button[5];
     ComboBox *combo;
-    DoubleSpinBox *spin[2];
-    QString CpInput, CvInput;
+    DoubleSpinBox *spin;
+    QString PressureInput, InitialVolumeInput, FinalVolumeInput;
     int mole = 1;
-    double InitialTemp = 24;
-    double FinalTemp = 26;
+    double Temperature = 24;
 public:
     Isothermal_Irrev(QWidget *par);
     ~Isothermal_Irrev();
