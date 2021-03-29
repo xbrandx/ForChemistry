@@ -92,7 +92,7 @@ QString Adiabatic_Irrev::FormulaName()
 
 void Adiabatic_Irrev::CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par)
 {
-    double dU, dH, dS, work;
+    double work, dU, dH, dS;
     double R = 8.314;
     double InitialVolumeValue = InitialVolumeInput.toDouble();
     double FinalVolumeValue = FinalVolumeInput.toDouble();
@@ -104,26 +104,43 @@ void Adiabatic_Irrev::CalculateValue(bool Work, bool Heat, bool DeltaU, bool Del
     double CpInputf = CpInput.toFloat(&CpInputTest);
     double CvInputf = CvInput.toFloat(&CvInputTest);
 
-    if (InitialVolumeInputTest == false || FinalVolumeInputTest == false
-            || CpInputTest == false || CvInputTest == false)
-    {
-        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (InitialVolumeInputf <= 0.0f)
-    {
-        QMessageBox::about(par, "Error", "Initial Volume Value Need to be Greater Than 0.");
-    } else if (Work) {
-        work = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+    if (Work) {
+        if (CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cv");
+        } else {
+            work = CvValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+        }
     } else if (Heat) {
-        QMessageBox::about(par, "Heat", "Heat is 0 J.");
+        QMessageBox::about(par, "Heat", "The heat is 0 J.");
     } else if (DeltaU) {
-        dU = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
+        if (CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cv");
+        } else {
+            dU = CvValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "ΔU", "The ΔU is " + QString::number(dU) + " J.");
+        }
     } else if (DeltaH) {
-        dH = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
+        if (CpInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cp");
+        } else {
+            dH = CpValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "ΔH", "The ΔH is " + QString::number(dH) + " J.");
+        }
     } else if (DeltaS) {
-        dS = mole*R*log(FinalVolumeValue/InitialVolumeValue)+CvValue*log((FinalTemp+273)/(InitialTemp+273));
-        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
+        if (InitialVolumeInputTest == false || FinalVolumeInputTest == false || CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Initial Volume\n"
+                                             "- Final Volume\n"
+                                             "- Cv");
+        } else if (InitialVolumeInputf <= 0.0f) {
+            QMessageBox::about(par, "Error", "Initial Volume Value Needs to be Greater Than 0.");
+        } else {
+            dS = mole*R*log(FinalVolumeValue/InitialVolumeValue)+CvValue*log((FinalTemp+273)/(InitialTemp+273));
+            QMessageBox::about(par, "ΔS", "The ΔS is " + QString::number(dS) + " J.");
+        }
     }
 }

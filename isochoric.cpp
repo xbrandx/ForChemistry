@@ -86,29 +86,46 @@ QString Isochoric::FormulaName()
 
 void Isochoric::CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par)
 {
-    double dU, dH, heat, dS;
+    double heat, dU, dH, dS;
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     bool CpInputTest, CvInputTest;
     double CpInputf = CpInput.toFloat(&CpInputTest);
     double CvInputf = CvInput.toFloat(&CvInputTest);
 
-    if (CpInputTest == false || CvInputTest == false)
-    {
-        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (Work) {
+    if (Work) {
         QMessageBox::about(par, "Work Done", "The work done is 0 J.");
     } else if (Heat) {
-        heat = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
+        if (CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cv");
+        } else {
+            heat = CvValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "Heat", "The heat is " + QString::number(heat) + " J.");
+        }
     } else if (DeltaU) {
-        dU = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
+        if (CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cv");
+        } else {
+            dU = CvValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "ΔU", "The ΔU is " + QString::number(dU) + " J.");
+        }
     } else if (DeltaH) {
-        dH = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
+        if (CpInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cp");
+        } else {
+            dH = CpValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "ΔH", "The ΔH is " + QString::number(dH) + " J.");
+        }
     } else if (DeltaS) {
-        dS = CpValue*log((FinalTemp+273)/(InitialTemp+273));
-        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
+        if (CpInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cp");
+        } else {
+            dS = CpValue*log((FinalTemp+273)/(InitialTemp+273));
+            QMessageBox::about(par, "ΔS", "The ΔS is " + QString::number(dS) + " J.");
+        }
     }
 }

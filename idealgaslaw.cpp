@@ -70,7 +70,8 @@ void IdealGasLaw::CalculateVolume(QWidget *par)
 {
     if (PressureInput.toFloat() <= 0.0f)
     {
-        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
+        QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                         "- Pressure");
     } else {
         double R = 0.0821;
         double PressureValue = PressureInput.toDouble();
@@ -83,7 +84,8 @@ void IdealGasLaw::CalculatePressure(QWidget *par)
 {
     if (VolumeInput.toFloat() <= 0.0f)
     {
-        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
+        QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                         "Volume");
     } else {
         double R = 0.0821;
         double VolumeValue = VolumeInput.toDouble();

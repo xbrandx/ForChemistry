@@ -80,7 +80,7 @@ QString Isothermal_Irrev::FormulaName()
 
 void Isothermal_Irrev::CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par)
 {
-    double heat, dS, work;
+    double work, heat, dS;
     double R = 8.314;
     double PressureValue = PressureInput.toDouble();
     double InitialVolumeValue = InitialVolumeInput.toDouble();
@@ -90,25 +90,40 @@ void Isothermal_Irrev::CalculateValue(bool Work, bool Heat, bool DeltaU, bool De
     double InitialVolumeInputf = InitialVolumeInput.toFloat(&InitialVolumeInputTest);
     double FinalVolumeInputf = FinalVolumeInput.toFloat(&FinalVolumeInputTest);
 
-    if (PressureInputTest == false
-            || InitialVolumeInputTest == false || FinalVolumeInputTest == false)
-    {
-        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (InitialVolumeInputf <= 0.0f)
-    {
-        QMessageBox::about(par, "Error", "Initial Volume Value Need to be Greater Than 0.");
-    } else if (Work) {
-        work = -PressureValue*(FinalVolumeValue-InitialVolumeValue);
-        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+    if (Work) {
+        if (PressureInputTest == false || InitialVolumeInputTest == false || FinalVolumeInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Pressure\n"
+                                             "- Initial Volume\n"
+                                             "- Final Volume");
+        } else {
+            work = -PressureValue*(FinalVolumeValue-InitialVolumeValue);
+            QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+        }
     } else if (Heat) {
-        heat = PressureValue*(FinalVolumeValue-InitialVolumeValue);
-        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
+        if (PressureInputTest == false || InitialVolumeInputTest == false || FinalVolumeInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Pressure\n"
+                                             "- Initial Volume\n"
+                                             "- Final Volume");
+        } else {
+            heat = PressureValue*(FinalVolumeValue-InitialVolumeValue);
+            QMessageBox::about(par, "Heat", "The heat is " + QString::number(heat) + " J.");
+        }
     } else if (DeltaU) {
-        QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
+        QMessageBox::about(par, "ΔU", "The ΔU is 0 J.");
     } else if (DeltaH) {
-        QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
+        QMessageBox::about(par, "ΔH", "The ΔH is 0 J.");
     } else if (DeltaS) {
-        dS = mole*R*log(FinalVolumeValue/InitialVolumeValue);
-        QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
+        if (InitialVolumeInputTest == false || FinalVolumeInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Initial Volume\n"
+                                             "- Final Volume");
+        } else if (InitialVolumeInputf <= 0.0f) {
+            QMessageBox::about(par, "Error", "Initial Volume Value Need to be Greater Than 0.");
+        } else {
+            dS = mole*R*log(FinalVolumeValue/InitialVolumeValue);
+            QMessageBox::about(par, "ΔS", "The ΔS is " + QString::number(dS) + " J.");
+        }
     }
 }

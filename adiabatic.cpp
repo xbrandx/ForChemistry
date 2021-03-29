@@ -86,28 +86,40 @@ QString Adiabatic::FormulaName()
 
 void Adiabatic::CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par)
 {
-    double dU, dH, work;
+    double work, dU, dH;
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
     bool CpInputTest, CvInputTest;
     double CpInputf = CpInput.toFloat(&CpInputTest);
     double CvInputf = CvInput.toFloat(&CvInputTest);
 
-    if (CpInputTest == false || CvInputTest == false)
-    {
-        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
-    } else if (Work) {
-        work = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+    if (Work) {
+        if (CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cv");
+        } else {
+            work = CvValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+        }
     } else if (Heat) {
-        QMessageBox::about(par, "Heat", "Heat is 0 J.");
+        QMessageBox::about(par, "Heat", "The heat is 0 J.");
     } else if (DeltaU) {
-        dU = CvValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
+        if (CvInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cv");
+        } else {
+            dU = CvValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "ΔU", "The ΔU is " + QString::number(dU) + " J.");
+        }
     } else if (DeltaH) {
-        dH = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
+        if (CpInputTest == false) {
+            QMessageBox::about(par, "Error", "Invalid Input!\nPlease Enter A Valid Number on the Following Fields:\n\n"
+                                             "- Cp");
+        } else {
+            dH = CpValue*(FinalTemp-InitialTemp);
+            QMessageBox::about(par, "ΔH", "The ΔH is " + QString::number(dH) + " J.");
+        }
     } else if (DeltaS) {
-        QMessageBox::about(par, "ΔS", "ΔS is 0 J.");
+        QMessageBox::about(par, "ΔS", "The ΔS is 0 J.");
     }
 }
