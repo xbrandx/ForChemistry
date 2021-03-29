@@ -29,8 +29,8 @@ public:
     ~Isothermal();
     void Clear();
     QString FormulaName();
-    void CalculateValueFromPressure(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
-    void CalculateValueFromVolume(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
+    void CalculateValueFromPressure(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par);
+    void CalculateValueFromVolume(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par);
 };
 
 #endif // ISOTHERMAL_H

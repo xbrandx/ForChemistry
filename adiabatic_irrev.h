@@ -30,7 +30,7 @@ public:
     ~Adiabatic_Irrev();
     void Clear();
     QString FormulaName();
-    void CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par);
+    void CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par);
 };
 
 #endif // ADIABATIC_IRREV_H

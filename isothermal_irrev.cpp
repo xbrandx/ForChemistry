@@ -25,15 +25,15 @@ Isothermal_Irrev::Isothermal_Irrev(QWidget *par)
     button[3] = new PushButton("ΔH", 270, 190, par);
     button[4] = new PushButton("ΔS", 350, 190, par);
     PushButton::connect(button[0], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, false, false, false, par); });
+                        [=](){ CalculateValue(true, false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, false, true, false, par); });
+                        [=](){ CalculateValue(false, true, false, false, false, par); });
     PushButton::connect(button[2], &QPushButton::clicked,
-                        [=](){ CalculateValue(true, false, false, false, par); });
+                        [=](){ CalculateValue(false, false, true, false, false, par); });
     PushButton::connect(button[3], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, true, false, false, par); });
+                        [=](){ CalculateValue(false, false, false, true, false, par); });
     PushButton::connect(button[4], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, false, false, true, par); });
+                        [=](){ CalculateValue(false, false, false, false, true, par); });
 
     combo = new ComboBox(10, 10, 80, 40, par);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
@@ -78,25 +78,37 @@ QString Isothermal_Irrev::FormulaName()
     return "Isothermal Process (Irreversible)";
 }
 
-void Isothermal_Irrev::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
+void Isothermal_Irrev::CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par)
 {
     double heat, dS, work;
     double R = 8.314;
     double PressureValue = PressureInput.toDouble();
     double InitialVolumeValue = InitialVolumeInput.toDouble();
     double FinalVolumeValue = FinalVolumeInput.toDouble();
-    if (DeltaU) {
+    bool PressureInputTest, InitialVolumeInputTest, FinalVolumeInputTest;
+    double PressureInputf = InitialVolumeInput.toFloat(&PressureInputTest);
+    double InitialVolumeInputf = InitialVolumeInput.toFloat(&InitialVolumeInputTest);
+    double FinalVolumeInputf = FinalVolumeInput.toFloat(&FinalVolumeInputTest);
+
+    if (PressureInputTest == false
+            || InitialVolumeInputTest == false || FinalVolumeInputTest == false)
+    {
+        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
+    } else if (InitialVolumeInputf <= 0.0f)
+    {
+        QMessageBox::about(par, "Error", "Initial Volume Value Need to be Greater Than 0.");
+    } else if (Work) {
+        work = -PressureValue*(FinalVolumeValue-InitialVolumeValue);
+        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+    } else if (Heat) {
+        heat = PressureValue*(FinalVolumeValue-InitialVolumeValue);
+        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
+    } else if (DeltaU) {
         QMessageBox::about(par, "ΔU", "ΔU is 0 J.");
     } else if (DeltaH) {
         QMessageBox::about(par, "ΔH", "ΔH is 0 J.");
-    } else if (Heat){
-        heat = PressureValue*(FinalVolumeValue-InitialVolumeValue);
-        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
-    } else if (DeltaS){
+    } else if (DeltaS) {
         dS = mole*R*log(FinalVolumeValue/InitialVolumeValue);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
-    } else {
-        work = -PressureValue*(FinalVolumeValue-InitialVolumeValue);
-        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }

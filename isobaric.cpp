@@ -32,15 +32,15 @@ Isobaric::Isobaric(QWidget *par)
     button[3] = new PushButton("ΔH", 270, 290, par);
     button[4] = new PushButton("ΔS", 350, 290, par);
     PushButton::connect(button[0], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, false, false, false, par); });
+                        [=](){ CalculateValue(true, false, false, false, false, par); });
     PushButton::connect(button[1], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, false, true, false, par); });
+                        [=](){ CalculateValue(false, true, false, false, false, par); });
     PushButton::connect(button[2], &QPushButton::clicked,
-                        [=](){ CalculateValue(true, false, false, false, par); });
+                        [=](){ CalculateValue(false, false, true, false, false, par); });
     PushButton::connect(button[3], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, true, false, false, par); });
+                        [=](){ CalculateValue(false, false, false, true, false, par); });
     PushButton::connect(button[4], &QPushButton::clicked,
-                        [=](){ CalculateValue(false, false, false, true, par); });
+                        [=](){ CalculateValue(false, false, false, false, true, par); });
 
     combo = new ComboBox(10, 10, 80, 40, par);
     ComboBox::connect(combo, QOverload<int>::of(&QComboBox::activated),
@@ -93,7 +93,7 @@ QString Isobaric::FormulaName()
     return "Isobaric Process";
 }
 
-void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, QWidget *par)
+void Isobaric::CalculateValue(bool Work, bool Heat, bool DeltaU, bool DeltaH, bool DeltaS, QWidget *par)
 {
     double dU, dH, heat, dS, work;
     double R = 8.314;
@@ -102,20 +102,35 @@ void Isobaric::CalculateValue(bool DeltaU, bool DeltaH, bool Heat, bool DeltaS, 
     double FinalVolumeValue = FinalVolumeInput.toDouble();
     double CpValue = CpInput.toDouble();
     double CvValue = CvInput.toDouble();
-    if (DeltaU) {
+    bool PressureInputTest, InitialVolumeInputTest, FinalVolumeInputTest, CpInputTest, CvInputTest;
+    double PressureInputf = InitialVolumeInput.toFloat(&PressureInputTest);
+    double InitialVolumeInputf = InitialVolumeInput.toFloat(&InitialVolumeInputTest);
+    double FinalVolumeInputf = FinalVolumeInput.toFloat(&FinalVolumeInputTest);
+    double CpInputf = CpInput.toFloat(&CpInputTest);
+    double CvInputf = CvInput.toFloat(&CvInputTest);
+
+    if (PressureInputTest == false
+            || InitialVolumeInputTest == false || FinalVolumeInputTest == false
+            || CpInputTest == false || CvInputTest == false)
+    {
+        QMessageBox::about(par, "Error", "Invalid Input! Please Enter A Valid Number.");
+    } else if (InitialVolumeInputf <= 0.0f)
+    {
+        QMessageBox::about(par, "Error", "Initial Volume Value Need to be Greater Than 0.");
+    } else if (Work) {
+        work = -PressureValue * (FinalVolumeValue - InitialVolumeValue);
+        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
+    } else if (Heat) {
+        heat = CpValue*(FinalTemp-InitialTemp);
+        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
+    } else if (DeltaU) {
         dU = CvValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔU", "ΔU is " + QString::number(dU) + " J.");
     } else if (DeltaH) {
         dH = CpValue*(FinalTemp-InitialTemp);
         QMessageBox::about(par, "ΔH", "ΔH is " + QString::number(dH) + " J.");
-    } else if (Heat){
-        heat = CpValue*(FinalTemp-InitialTemp);
-        QMessageBox::about(par, "Heat", "Heat is " + QString::number(heat) + " J.");
-    } else if (DeltaS){
+    } else if (DeltaS) {
         dS = CpValue*log((FinalTemp+273)/(InitialTemp+273))+mole*R*log(FinalVolumeValue/InitialVolumeValue);
         QMessageBox::about(par, "ΔS", "ΔS is " + QString::number(dS) + " J.");
-    } else {
-        work = -PressureValue * (FinalVolumeValue - InitialVolumeValue);
-        QMessageBox::about(par, "Work Done", "The work done is " + QString::number(work) + " J.");
     }
 }
